@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Hexo + GitHub 搭建个人博客</title>
+      <link href="/%5Bobject%20Object%5D/Hexo%20+%20GitHub%20%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+      <url>/%5Bobject%20Object%5D/Hexo%20+%20GitHub%20%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>这是我的<a href="https://tqh.ac.cn/">博客</a></p><h4 id="搭建博客-鼓励篇"><a href="#搭建博客-鼓励篇" class="headerlink" title="搭建博客(鼓励篇)"></a>搭建博客(鼓励篇)</h4><p>在大二的时候，在我同学博客的诱惑下，我也开始了我的博客之路。当然，开始的时候都是困难的，因为什么东西都不懂，都需要自行百度，在这个博客找点，在那个博客找点的，都木有一个博客的教程是很详细且到位的。因为是小白，所以想记录下自己搭建的过程，也可以为以后当个参考。</p><p><strong><em>使用github搭建个人博客的优点：</em></strong></p><ul><li style="list-style: none"><input type="checkbox" checked> 全是静态的文件，访问方便。</li><li style="list-style: none"><input type="checkbox" checked> 免费的啊啊啊啊！</li><li style="list-style: none"><input type="checkbox" checked> 随便绑定域名，只要你愿意。</li><li style="list-style: none"><input type="checkbox" checked> 博客内容可以轻松打包、转移、发布到其他平台。</li></ul><a id="more"></a><h4 id="搭建博客-准备篇"><a href="#搭建博客-准备篇" class="headerlink" title="搭建博客(准备篇)"></a>搭建博客(准备篇)</h4><h5 id="在搭建博客之前，你首先需要做一下几件事情"><a href="#在搭建博客之前，你首先需要做一下几件事情" class="headerlink" title="在搭建博客之前，你首先需要做一下几件事情:"></a>在搭建博客之前，你首先需要做一下几件事情:</h5><ul><li style="list-style: none"><input type="checkbox" checked> 有一个到<a href="https://github.com" target="_blank" rel="noopener">GitHub</a>账号，没有的话快去注册。</li><li style="list-style: none"><input type="checkbox" checked> 安装了node.js、npm，并了解相关基础知识；</li><li style="list-style: none"><input type="checkbox" checked> 安装了git for windows（或者其它git客户端）    </li></ul><h4 id="搭建博客-基础篇"><a href="#搭建博客-基础篇" class="headerlink" title="搭建博客(基础篇)"></a>搭建博客(基础篇)</h4><h5 id="1-在Github上创建自己的仓库。"><a href="#1-在Github上创建自己的仓库。" class="headerlink" title="1. 在Github上创建自己的仓库。"></a>1. 在Github上创建自己的仓库。</h5><p>在GitHub上新建一个仓库，这个仓库里可以存放你自己的代码和项目，可以和其他人分享，向我们这种小菜鸟可以去学习大牛们的项目，包括一些优秀的框架源码。<br><strong><em>注意:</em></strong></p><ol><li>注册的邮箱一定要验证，否则不会成功。</li><li>库的名字要和账户名一致！</li><li>仓库创建成功不会立即生效，需要过一段时间，大概10-30分钟，或者更久，我的等了半个小时才生效；</li></ol><h5 id="2-绑定域名"><a href="#2-绑定域名" class="headerlink" title="2. 绑定域名"></a>2. 绑定域名</h5><p>当然，你不绑定域名肯定是可以的，就用默认的域名:<code>https://username.github.com</code> 来访问，如果你想飘一点，想拥有一个属于自己的域名，嗯哼，向下看。</p><p>首先你要注册一个域名，域名注册可以去腾讯云，价格还可以吧，毕竟是大公司，放心。</p><p>然后到你的github项目根目录新建一个名为CNAME的文件（无后缀），里面填写你的域名或者在setting里面绑定都可以。</p><h5 id="3-配置SSH-KEY"><a href="#3-配置SSH-KEY" class="headerlink" title="3. 配置SSH KEY"></a>3. 配置SSH KEY</h5><p>当你提交代码时，需要一定的权限，但是直接使用用户名和密码太不安全了，所以我们使用ssh key来解决本地和服务器的连接问题。</p><p>用git bash执行如下命令：</p><p><code>$ cd ~/. ssh #检查本机已存在的ssh密钥</code><br>如果提示：No such file or directory 说明你是第一次使用git。</p><p><code>$ sh-keygen -t rsa -C &quot;邮件地址&quot;</code><br>然后连续3次回车，最终会生成一个文件在用户目录下，打开用户目录，找到.ssh\id_rsa.pub文件，记事本打开并复制里面的内容，打开你的github主页，进入个人设置 -&gt; SSH and GPG keys -&gt; New SSH key</p><p>将刚复制的内容粘贴到key那里，title随便填，保存。</p><p><strong><em>测试是否成功</em></strong><br><code>$ ssh -T git@github.com # 注意邮箱地址不用改</code><br>如果提示Are you sure you want to continue connecting (yes/no)?，输入yes，然后会看到：</p><blockquote><p>   Hi tanqinhao! You’ve successfully authenticated, but GitHub does not provide shell access.</p></blockquote><p>然后配置：<br><code>$ git config --global user.name &quot;tanqinhao&quot;// 你的github用户名，非昵称</code><br><code>$ git config --global user.email  &quot;1774615922@qq.com&quot;// 填写你的github注册邮箱</code></p><h5 id="4-使用hexo写博客"><a href="#4-使用hexo写博客" class="headerlink" title="4. 使用hexo写博客"></a>4. 使用hexo写博客</h5><p><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">Hexo</a>是一个简单、快速、强大的基于 Github Pages 的博客发布工具，支持Markdown格式，有众多优秀插件和主题。 </p><p><strong><em>注意事项: </em></strong></p><ol><li>很多命令既可以用Windows的cmd来完成，也可以使用git bash来完成，但是部分命令会有一些问题，为避免不必要的问题，建议全部使用git bash来执行；</li><li>hexo不同版本差别比较大，网上很多文章的配置信息都是基于2.x的，所以注意不要被误导；</li><li><p>hexo有2种_config.yml文件，一个是根目录下的全局的_config.yml，一个是各个theme下的；</p><h6 id="4-1-安装hexo"><a href="#4-1-安装hexo" class="headerlink" title="4.1 安装hexo"></a>4.1 安装hexo</h6><p><code>$ npm install -g hexo</code></p><h6 id="4-2-初始化hexo"><a href="#4-2-初始化hexo" class="headerlink" title="4.2 初始化hexo"></a>4.2 初始化hexo</h6><p>在电脑的某个地方新建一个文件夹（名字可以随便取），比如我的是D:\博客\githubmyblog，由于这个文件夹将来就作为你存放代码的地方，所以最好不要随便放。<br><code>$ cd /d/博客/githubmyblog/</code><br><code>$ hexo init</code><br>hexo会自动下载一些文件到这个目录，包括node_modules。    </p><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>hexo clean <span class="comment"># 清理生成的文件和数据库</span></span><br><span class="line"><span class="variable">$ </span>hexo g <span class="comment"># 生成文件</span></span><br><span class="line"><span class="variable">$ </span>hexo d <span class="comment"># 发布文件</span></span><br><span class="line"><span class="variable">$ </span>hexo s <span class="comment"># 启动服务</span></span><br></pre></td></tr></table></figure><p>执行<code>hexo g</code>，hexo会在public文件夹生成相关html文件；</p><p>执行<code>hexo d</code>，hexo将文件夹 文件提交到GitHub上；</p><p>执行<code>hexo s</code>，开启本地预览服务，打开浏览器访问 <a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a> 即可看到内容。</p><p>如果出现一些莫名其妙的问题，可以先执行<code>hexo clean</code>来清理一下public的内容，然后再来重新生成和发布。</p><h6 id="4-3-上传到GitHub"><a href="#4-3-上传到GitHub" class="headerlink" title="4.3 上传到GitHub"></a>4.3 上传到GitHub</h6><p>在上传代码到github之前，一定要记得先把你以前所有代码下载下来（虽然github有版本管理，但备份一下总是好的），因为从hexo提交代码时会把你以前的所有代码都删掉。</p><p>如果你一切都配置好了，发布上传很容易，一句hexo d就搞定，当然关键还是你要把所有东西配置好。</p><blockquote><p>首先，ssh key肯定要配置好。</p></blockquote><blockquote><p>其次，配置_config.yml中有关deploy的部分： </p></blockquote><p>正确写法：</p><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">  <span class="attribute">type</span>: git</span><br><span class="line">  <span class="attribute">repository</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:tanqinhao/tanqinhao.github.io.git</span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure><p>执行hexo d后如果报错：<br><code>Deployer not found: github 或者 Deployer not found: git</code><br>原因是还需要安装一个插件：<br><code>npm install hexo-deployer-git --save</code><br>建议，先在本地将需要改动的东西改好，然后通过本地服务器访问运行一下，毕竟外网是很慢的。</p><h6 id="4-4-保留CNAME等非md文件"><a href="#4-4-保留CNAME等非md文件" class="headerlink" title="4.4. 保留CNAME等非md文件"></a>4.4. 保留CNAME等非md文件</h6><p>可以把他们放到source文件夹下，这里的所有文件都会原样复制（除了md文件）到public目录。</p><h6 id="4-5-写博客"><a href="#4-5-写博客" class="headerlink" title="4.5. 写博客"></a>4.5. 写博客</h6><p><a href="http://note.youdao.com/" target="_blank" rel="noopener">有道云笔记</a>可以生成md文件，还有一些便携工具，一边写一边生成预览，写完之后将文件另存为到你博客目录下的source/_posts/文件夹下。注意：有道云笔记打开md文件时是上传，并不对原文件进行编辑，所以在编辑完成之后，将其另存为到原文件夹。<br>同样<a href="https://notepad-plus-plus.org/" target="_blank" rel="noopener">notepad++</a>也可以打开md文件。</p></li></ol><h4 id="搭建博客-进阶篇"><a href="#搭建博客-进阶篇" class="headerlink" title="搭建博客(进阶篇)"></a>搭建博客(进阶篇)</h4><h5 id="1-配置站点-config"><a href="#1-配置站点-config" class="headerlink" title="1. 配置站点_config"></a>1. 配置站点_config</h5><ul><li><p>_config文件在你的博客目录下。</p><h6 id="1-site"><a href="#1-site" class="headerlink" title="1. site"></a>1. site</h6>  <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">title:</span> <span class="comment">//标题</span></span><br><span class="line"><span class="symbol">subtitle:</span> </span><br><span class="line"><span class="symbol">description:</span> <span class="comment">//描述</span></span><br><span class="line"><span class="symbol">author:</span> <span class="comment">//作者</span></span><br><span class="line"><span class="symbol">language:</span> zh-Hans</span><br><span class="line"><span class="symbol">timezone:</span> Asia/shanghai</span><br></pre></td></tr></table></figure><h6 id="2-URL"><a href="#2-URL" class="headerlink" title="2. URL"></a>2. URL</h6><p>  如果网站是放在子目录中，将url设置成’<a href="http://yoursite.com/child&#39;，将root设置成&#39;/child/&#39;" target="_blank" rel="noopener">http://yoursite.com/child&#39;，将root设置成&#39;/child/&#39;</a></p>  <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">url:</span> <span class="string">http:</span><span class="comment">//tanqhao.gitee.io/myblog/</span></span><br><span class="line"><span class="string">root:</span> /myblog</span><br><span class="line"><span class="string">permalink:</span> :categories<span class="regexp">/:title/</span>  <span class="comment">//访问时的网址为分类+文章</span></span><br><span class="line"><span class="string">permalink_defaults:</span></span><br></pre></td></tr></table></figure><h6 id="3-文章末尾添加’本文结束’标记"><a href="#3-文章末尾添加’本文结束’标记" class="headerlink" title="3. 文章末尾添加’本文结束’标记"></a>3. 文章末尾添加’本文结束’标记</h6>  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">passage_end_tag:</span></span><br><span class="line"><span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure><h6 id="4-主题"><a href="#4-主题" class="headerlink" title="4. 主题"></a>4. 主题</h6>  <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: <span class="keyword">next</span></span><br></pre></td></tr></table></figure><h6 id="5-本地搜索"><a href="#5-本地搜索" class="headerlink" title="5. 本地搜索"></a>5. 本地搜索</h6><p>  安装 hexo-generator-search 的生成器，在执行 hexo generate 的过程中，会按照配置生成一个 XML 文件，用于保存全站的文档数据。这个 XML 文件只是简单地做了数据的结构化存储，而完全没有考虑分词、倒排等问题。</p>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> <span class="comment">--save hexo-generator-search`</span></span><br></pre></td></tr></table></figure><p>  在_config.yml 当中写入如下配置，即可为全站的文档生成索引文件</p>  <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">search:</span></span><br><span class="line"><span class="symbol">  path:</span> search.xml</span><br><span class="line"><span class="symbol">  field:</span> post</span><br><span class="line"><span class="symbol">  format:</span> html</span><br><span class="line"><span class="symbol">  limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure></li></ul><h5 id="2-配置主题-config"><a href="#2-配置主题-config" class="headerlink" title="2. 配置主题_config"></a>2. 配置主题_config</h5><ul><li><p>_config文件在你的博客目录下的theme文件夹下。</p><h6 id="1-Scheme-Settings"><a href="#1-Scheme-Settings" class="headerlink" title="1. Scheme Settings"></a>1. Scheme Settings</h6>  <figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># Schemes</span></span><br><span class="line"><span class="meta">#scheme: Muse</span></span><br><span class="line"><span class="meta">#scheme: Mist</span></span><br><span class="line"><span class="meta">#scheme: Pisces</span></span><br><span class="line">scheme: Gemini</span><br></pre></td></tr></table></figure><p>  这个按自己喜好来,喜欢哪一种就把前面的#去掉。</p><h6 id="2-Sidebar-Settings"><a href="#2-Sidebar-Settings" class="headerlink" title="2. Sidebar Settings"></a>2. Sidebar Settings</h6>  <figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">social</span>:</span><br><span class="line">  <span class="attribute">GitHub</span>: <span class="attribute">https</span>:<span class="comment">//github.com/tanqinhao || github</span></span><br><span class="line">  <span class="attribute">Gitee</span>: <span class="attribute">https</span>:<span class="comment">//gitee.com/tanqhao/myblog/ || git </span></span><br><span class="line">  微信: <span class="attribute">http</span>:<span class="comment">//tanqhao.gitee.io/myblog/about/ || weixin</span></span><br><span class="line">  <span class="attribute">QQ</span>: <span class="attribute">http</span>:<span class="comment">//tanqhao.gitee.io/myblog/about/ || qq</span></span><br></pre></td></tr></table></figure><p>  图标可以到<a href="https://fontawesome.com/icons?from=io" target="_blank" rel="noopener">这里</a>找到，然后复制名字到||后，注意空格。</p><h6 id="3-侧边框位置"><a href="#3-侧边框位置" class="headerlink" title="3. 侧边框位置"></a>3. 侧边框位置</h6>  <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">sidebar:</span></span><br><span class="line"><span class="symbol">position:</span> left</span><br></pre></td></tr></table></figure><p>  我喜欢侧边栏在左边，你们随意。<br>  侧边栏还可以隐藏</p>  <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">display</span>: post</span><br><span class="line"><span class="selector-id">#display</span>: always</span><br><span class="line"><span class="selector-id">#display</span>: hide</span><br><span class="line"><span class="selector-id">#display</span>: remove</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客搭建 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo GitHub </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>数组循环左移</title>
+      <link href="/%5Bobject%20Object%5D/%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E4%B8%8E%E9%A1%BA%E5%BA%8F%E8%A1%A8%E6%93%8D%E4%BD%9C---%20%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E5%B7%A6%E7%A7%BB/"/>
+      <url>/%5Bobject%20Object%5D/%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E4%B8%8E%E9%A1%BA%E5%BA%8F%E8%A1%A8%E6%93%8D%E4%BD%9C---%20%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E5%B7%A6%E7%A7%BB/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现一个对数组进行循环左移的简单函数：一个数组a中存有n（&gt;0）个整数，在不允许使用另外数组的前提下，将每个整数循环向左移m（≥0）个位置，即（最前面的m个数循环移至最后面的m个位置）。<br>如果还需要考虑程序移动数据的次数尽量少，要如何设计移动的方法？</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入第1行给出正整数n（≤100）和整数m（≥0）；第2行给出n个整数，其间以空格分隔。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>在一行中输出循环左移m位以后的整数序列，之间用空格分隔，序列结尾不能有多余空格。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>8 3</p><p>1 2 3 4 5 6 7 8</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>4 5 6 7 8 1 2 3</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include&lt;iostream&gt;using namespace std;int main(){   int left,n,num;   int a[101];   cin&gt;&gt;n&gt;&gt;left;   for(int i=0;i&lt;n;i++)   {       cin&gt;&gt;num;       a[i]=num;   }   if(left&gt;n)    left=left%n;   if(left==n)    left=0;   for(int i=left;i&lt;n;i++)   {       if(i==left)         cout&lt;&lt;a[i];       else        cout&lt;&lt;&quot; &quot;&lt;&lt;a[i];   }   for(int j=0;j&lt;left;j++)   {        cout&lt;&lt;&quot; &quot;&lt;&lt;a[j];   }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 线性表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>树的同构</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%91%E5%92%8C%E6%A3%AE%E6%9E%97---%E6%A0%91%E7%9A%84%E5%90%8C%E6%9E%84/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%91%E5%92%8C%E6%A3%AE%E6%9E%97---%E6%A0%91%E7%9A%84%E5%90%8C%E6%9E%84/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>给定两棵树T1和T2。如果T1可以通过若干次左右孩子互换就变成T2，则我们称两棵树是“同构”的。例如图1给出的两棵树就是同构的，因为我们把其中一棵树的结点A、B、G的左右孩子互换后，就得到另外一棵树。而图2就不是同构的。</p><p><img src="http://oyqupavdc.bkt.clouddn.com/28" alt="image"></p><p><img src="http://oyqupavdc.bkt.clouddn.com/29" alt="image"></p><p>现给定两棵树，请你判断它们是否是同构的。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入给出2棵二叉树树的信息。对于每棵树，首先在一行中给出一个非负整数N (≤10)，即该树的结点数（此时假设结点从0到N−1编号）；随后N行，第i行对应编号第i个结点，给出该结点中存储的1个英文大写字母、其左孩子结点的编号、右孩子结点的编号。如果孩子结点为空，则在相应位置上给出“-”。给出的数据间用一个空格分隔。注意：题目保证每个结点中存储的字母是不同的。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>如果两棵树是同构的，输出“Yes”，否则输出“No”。</p><h5 id="输入样例1（对应图1）："><a href="#输入样例1（对应图1）：" class="headerlink" title="输入样例1（对应图1）："></a>输入样例1（对应图1）：</h5><p>8</p><p>A 1 2</p><p>B 3 4</p><p>C 5 -</p><p>D - -</p><p>E 6 -</p><p>G 7 -</p><p>F - -</p><p>H - -</p><p>8</p><p>G - 4</p><p>B 7 6</p><p>F - -</p><p>A 5 1</p><p>H - -</p><p>C 0 -</p><p>D - -</p><p>E 2 -</p><h5 id="输出样例1"><a href="#输出样例1" class="headerlink" title="输出样例1:"></a>输出样例1:</h5><p>Yes</p><h5 id="输入样例2（对应图2）："><a href="#输入样例2（对应图2）：" class="headerlink" title="输入样例2（对应图2）："></a>输入样例2（对应图2）：</h5><p>8</p><p>B 5 7</p><p>F - -</p><p>A 0 3</p><p>C 6 -</p><p>H - -</p><p>D - -</p><p>G 4 -</p><p>E 1 -</p><p>8</p><p>D 6 -</p><p>B 5 -</p><p>E - -</p><p>H - -</p><p>C 0 2</p><p>G - 3</p><p>F - -</p><p>A 1 4</p><h5 id="输出样例2"><a href="#输出样例2" class="headerlink" title="输出样例2:"></a>输出样例2:</h5><p>No</p><h5 id="编程实现-1-："><a href="#编程实现-1-：" class="headerlink" title="编程实现[1]："></a>编程实现[1]：</h5><pre><code>#include&lt;stdio.h&gt;#include&lt;iostream&gt;#define MAXTREE 10#define Null -1using namespace std;typedef int Tree;typedef char ElementType;typedef struct TreeNode{    ElementType Element ;    Tree  Left ;    Tree  Right ;}TreeNode,TreeNodeArray;struct TreeNode T1[MAXTREE],T2[MAXTREE] ;Tree CreatTree(TreeNodeArray T[]){    int i,N;    int Root;    int check[MAXTREE];    char lc,rc;    cin&gt;&gt;N;    if(N!=0)    {        for( i=0 ; i&lt;N ; i++ ) check[i] =0;       for(i=0;i&lt;N;i++)       {        cin&gt;&gt;T[i].Element&gt;&gt;lc&gt;&gt;rc;        if(lc!=&apos;-&apos;)        {            T[i].Left=lc-&apos;0&apos;;            check[T[i].Left]=1;        }        else        {            T[i].Left=Null;        }        if(rc!=&apos;-&apos;)        {            T[i].Right=rc-&apos;0&apos;;            check[T[i].Right]=1;        }        else        {             T[i].Right=Null;        }        }    }    else    {        return Null;    }    for(i=0;i&lt;N;i++)    {        if(check[i]==0)        break;    }    Root=i;    return Root;} //如果为空树则是同构的 //如果一个为空一个不为空则不是同构的 //如果数据不同则不是同构的  //如果左儿子都为空判断右儿子是否同构：主要看以上三个方面（1）右儿子是否都为空（2）是否一个有右儿子一个没有（3）右儿子数据是否相同  //如果两棵树左儿子都不为空并且数据还是一样的，对左儿子进行递归*/  /* 如果两棵树左儿子（一个空一个不空或者都不空）并且数据不一样，那么判断第一棵树的左（右）儿子是否跟第二棵树的右（左）儿子同构 */int IsTTree( Tree Root1,Tree Root2){    if( (Root1== Null) &amp;&amp; (Root2== Null)  )         return 1 ;    if( ((Root1== Null)&amp;&amp;(Root2!= Null)) || ((Root1!= Null)&amp;&amp;(Root2 == Null)) )        return 0 ;    if( T1[Root1].Element != T2[Root2].Element  )        return 0 ;    if(  (T1[Root1].Left ==  Null) &amp;&amp; (T2[Root2].Left== Null) )        return IsTTree( T1[Root1].Right,T2[Root2].Right ) ;    if(  ((T1[Root1].Left!= Null) &amp;&amp; (T2[Root2].Left!= Null))&amp;&amp; (( T1[ T1[Root1].Left ].Element==T2[T2[Root2].Left].Element )) )        return ( IsTTree(T1[Root1].Left,T2[Root2].Left) &amp;&amp;                 IsTTree( T1[Root1].Right,T2[Root2].Right ) ) ;    else  return( IsTTree( T1[Root1].Left,T2[Root2].Right ) &amp;&amp;                IsTTree( T1[Root1].Right,T2[Root2].Left ) ) ;}int main(){    Tree Root1 , Root2 ;    Root1=CreatTree(T1);    Root2=CreatTree(T2);    if(IsTTree(Root1,Root2)==1)        cout&lt;&lt;&quot;Yes&quot;&lt;&lt;endl;    else        cout&lt;&lt;&quot;No&quot;&lt;&lt;endl;    return 0;}/* 如果两棵树左儿子（一个空一个不空或者都不空）并且数据不一样，那么判断第一棵树的左（右）儿子是否跟第二棵树的右（左）儿子同构 */</code></pre><h5 id="编程实现-2-："><a href="#编程实现-2-：" class="headerlink" title="编程实现[2]："></a>编程实现[2]：</h5><pre><code>#include &lt;stdio.h&gt;#include &lt;string.h&gt;typedef char ElemType;typedef int Tree;struct TreeNode{    ElemType data;    Tree left;    Tree right;}T1[100],T2[100];int n,flag[100];Tree TreeCreate(struct TreeNode T[]){    int i;    int Root;    char l,r;    scanf(&quot;%d&quot;,&amp;n);    if(n == 0)        return -1;    else{        for(i = 0; i &lt; n; i++)        {            flag[i] = 0;        }        for(i = 0; i &lt; n; i++)        {            scanf(&quot;\n%c %c %c&quot;,&amp;T[i].data,&amp;l,&amp;r);            if(l != &apos;-&apos;)        {            T[i].left = l - &apos;0&apos;;            flag[T[i].left] = 1;        }        else{            T[i].left = -1;        }        if(r != &apos;-&apos;)        {            T[i].right = r - &apos;0&apos;;            flag[T[i].right] = 1;        }        else{            T[i].right = -1;        }        }    }for(i = 0; i &lt; n; i++)        {            if(flag[i]==0)                break;        }        return i;}int Tonggou(Tree t1,Tree t2){    if(t1 == -1&amp;&amp;t2 == -1)        return 1;    if((t1 == -1&amp;&amp;t2 != -1)||(t1 != -1&amp;&amp;t2 == -1))        return 0;    if(T1[t1].data != T2[t2].data)        return 0;        if(1[t1].data == T2[t2].data)        {            if((T1[t1].left != -1&amp;&amp;T2[t2].left != -1)&amp;&amp;T1[T1[t1].left].data == T2[T2[t2].left].data)        return Tonggou(T1[t1].left,T2[t2].left)&amp;&amp;Tonggou(T1[t1].right,T2[t2].right);    else        return Tonggou(T1[t1].left,T2[t2].right)&amp;&amp;Tonggou(T1[t1].right,T2[t2].left);        }}int main(){    Tree t1,t2;    t1 = TreeCreate(T1);    t2 = TreeCreate(T2);    if(Tonggou(t1,t2))        printf(&quot;Yes\n&quot;);    else        printf(&quot;No\n&quot;);    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 树 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>一元多项式求导</title>
+      <link href="/%5Bobject%20Object%5D/%E9%93%BE%E8%A1%A8%E7%9A%84%E6%94%B9%E8%BF%9B%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E4%B8%80%E5%85%83%E5%A4%9A%E9%A1%B9%E5%BC%8F%E6%B1%82%E5%AF%BC/"/>
+      <url>/%5Bobject%20Object%5D/%E9%93%BE%E8%A1%A8%E7%9A%84%E6%94%B9%E8%BF%9B%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E4%B8%80%E5%85%83%E5%A4%9A%E9%A1%B9%E5%BC%8F%E6%B1%82%E5%AF%BC/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>设计函数求一元多项式的导数。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>以指数递降方式输入多项式非零项系数和指数（绝对值均为不超过1000的整数）。数字间以空格分隔。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>以与输入相同的格式输出导数多项式非零项的系数和指数。数字间以空格分隔，但结尾不能有多余空格。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>3 4 -5 2 6 1 -2 0</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>12 3 -10 1 6 0</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;#include &lt;string.h&gt;int main(){    int n, e, flag = 0;    while (scanf(&quot;%d%d&quot;, &amp;n, &amp;e) != EOF)    {        if( e&gt;0 )        {            if(flag==0)            {                printf(&quot;%d %d&quot;, n*e,e-1);                flag=1;            }            else            printf(&quot; %d %d&quot;, n*e,e-1);        }        else        {        }}if(flag==0)        printf(&quot;0 0&quot;);    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>顺序表创建和就地逆置</title>
+      <link href="/%5Bobject%20Object%5D/%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E4%B8%8E%E9%A1%BA%E5%BA%8F%E8%A1%A8%E6%93%8D%E4%BD%9C---%20%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%88%9B%E5%BB%BA%E5%92%8C%E5%B0%B1%E5%9C%B0%E9%80%86%E7%BD%AE/"/>
+      <url>/%5Bobject%20Object%5D/%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E4%B8%8E%E9%A1%BA%E5%BA%8F%E8%A1%A8%E6%93%8D%E4%BD%9C---%20%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%88%9B%E5%BB%BA%E5%92%8C%E5%B0%B1%E5%9C%B0%E9%80%86%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现顺序表的创建和就地逆置操作函数。L是一个顺序表，函数ListCreate_Sq(SqList &amp;L)用于创建一个顺序表，函数ListReverse_Sq(SqList &amp;L)是在不引入辅助数组的前提下将顺序表中的元素进行逆置，如原顺序表元素依次为1,2,3,4，则逆置后为4,3,2,1。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>Status ListCreate_Sq(SqList &amp;L);void ListReverse_Sq(SqList &amp;L);</code></pre><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;//顺序表的存储结构定义#define LIST_INIT_SIZE  100#define LISTINCREMENT   10typedef int ElemType;  //假设线性表中的元素均为整型typedef struct{    ElemType* elem;   //存储空间基地址    int length;       //表中元素的个数    int listsize;     //表容量大小}SqList;    //顺序表类型定义Status ListCreate_Sq(SqList &amp;L);void ListReverse_Sq(SqList &amp;L);int main() {    SqList L;    ElemType *p;    if(ListCreate_Sq(L)!= OK) {        printf(&quot;ListCreate_Sq: 创建失败！！！\n&quot;);        return -1;    }    ListReverse_Sq(L);    if(L.length){    for(p=L.elem;p&lt;L.elem+L.length-1;++p){        printf(&quot;%d &quot;,*p);    }    printf(&quot;%d&quot;,*p);     }    return 0;}</code></pre><h5 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h5><p>第一行输入一个整数n，表示顺序表中元素个数，接下来n个整数为表元素，中间用空格隔开。 </p><h5 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h5><p>输出逆置后顺序表的各个元素，两个元素之间用空格隔开，最后一个元素后面没有空格。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>4<br>1 2 3 4</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>4 3 2 1</p><h5 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h5><pre><code>Status ListCreate_Sq(SqList &amp;L){    ElemType *p;    int n;    int e;    scanf(&quot;%d&quot;,&amp;n);    //开辟一段空间    L.elem = (ElemType*)malloc(n* sizeof(ElemType));    //检测开辟是否成功    if(!L.elem){        exit(OVERFLOW);    }    //赋值    L.length = n;    L.listsize =n;    for(p=L.elem;p&lt;=L.elem+L.length-1;p++)    {        scanf(&quot;%d&quot;,&amp;e);        *p=e;    }    return OK;}void ListReverse_Sq(SqList &amp;L){    for(int j=1;j&lt;=L.length/2;j++)    {        int t;        t=*(L.elem+j-1);        *(L.elem+j-1)=*(L.elem+L.length-j);      *(L.elem+L.length-j)=t;    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 线性表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>爆内存函数实例</title>
+      <link href="/%5Bobject%20Object%5D/%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6--%E7%88%86%E5%86%85%E5%AD%98%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B/"/>
+      <url>/%5Bobject%20Object%5D/%E7%AE%97%E6%B3%95%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%8E%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6--%E7%88%86%E5%86%85%E5%AD%98%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现一个递归函数，用户传入非负整型参数n，用户依次输出1到n之间的整数。所谓递归函数就是指自己调用自己的函数。</p><a id="more"></a><pre><code>说明：（1）递归函数求解问题的基本思想是把一个大规模问题的求解归结为一个相对较小规模问题的求解，小规模归结为小小规模，以此类推，直至问题规模小至边界（边界问题可直接求解）。递归函数由两部分组成，一部分为递归边界，另一部分为递归关系式。以求阶乘函数为例，递归边界Factorial(1)=1;  递归公式： Factorial(n)=n*Factorial(n-1)，它对应的递归函数如下：                   int GetFactorial(int n){                              int result;                              if(n==1) result = 1;    //递归边界，此时问题答案易知，可直接求解                              else result =n* GetFactorial(n-1);   //递归关系，大问题求解归结为小问题求解                              return result;                   }(2) 发生函数递归调用（自己调用自己）或者普通函数调用时，系统需要保存调用发生前的执行场景信息（包括调用发生前的各个变量取值信息以及函数执行位置等），以便被调函数执行完毕后可以顺利返回并继续执行后续操作。每次调用都需要保存一个场景信息，保存这些场景信息需要的辅助空间的大小与函数调用的次数呈正比，或者说其空间复杂度是O(n)，当中n为调用次数。(3)本例的目的是让学生编写一个递归函数，并在自己的机器上测试递归调用次数达到多少时会发生内存被爆而出现内存溢出的错误（我办公室机器上设置参数为66000时会溢出）。同样的这个问题，如果不用递归函数而改用普通的循环语句解决问题，则不会出现内存溢出！</code></pre><h5 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h5><pre><code>void PrintN (long n);</code></pre><p>其中n为用户传入的参数。</p><h5 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h5><pre><code>在这里给出函数被调用进行测试的例子。例如：#include &lt;stdio.h&gt;void PrintN(long n);int main(){    PrintN(66000L);    return 0;}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>5</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>12345</p><h5 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h5><pre><code>void PrintN(long n){        if(n==1)        {            printf(&quot;%d&quot;,n);        }        else        {            PrintN(n-1);            printf(&quot;%d&quot;,n);        }//64908return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 复杂度 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>表达式转换</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%BD%AC%E6%8D%A2/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%BD%AC%E6%8D%A2/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>算术表达式有前缀表示法、中缀表示法和后缀表示法等形式。日常使用的算术表达式是采用中缀表示法，即二元运算符位于两个运算数中间。请设计程序将中缀表达式转换为后缀表达式。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入在一行中给出不含空格的中缀表达式，可包含+、-、*、\以及左右括号()，表达式不超过20个字符。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>在一行中输出转换后的后缀表达式，要求不同对象（运算数、运算符号）之间以空格分隔，但结尾不得有多余空格。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>2+3*(7-4)+8/4</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>2 3 7 4 - * + 8 4 / +</p><h5 id="编程实现-1"><a href="#编程实现-1" class="headerlink" title="编程实现[1]:"></a>编程实现[1]:</h5><pre><code>#include &lt;cstdio&gt;#include &lt;cstdlib&gt;#include &lt;iostream&gt;#include &lt;set&gt;#include &lt;iterator&gt;#include &lt;vector&gt;#include &lt;algorithm&gt;#include &lt;string.h&gt;#include &lt;string&gt;#include &lt;queue&gt;#include &lt;deque&gt;#include &lt;stack&gt;#include &lt;sstream&gt;#include &lt;iterator&gt;using namespace std;#define N 22int opeprior(char c) // 运算符优先级，值越大优先级越高{    if (c == &apos;+&apos; || c == &apos;-&apos;)        return 1;    if (c == &apos;*&apos; || c == &apos;/&apos;)        return 2;    if (c == &apos;(&apos;)        return 3;    return -1;}double str2double(string s) // string转double{    stringstream ss;    double d;    ss &lt;&lt; s;    ss &gt;&gt; d;    return d;}struct mydata // string是数值，char为符号{    string d;    char c;    mydata(string _d = 0, char _c = &apos;0&apos;) :d(_d), c(_c){}};int main(){    //freopen(&quot;in.txt&quot;, &quot;r&quot;, stdin);    char s[N];    while (scanf(&quot;%s&quot;, s) != EOF)    {        int len = strlen(s);        int i, j;        queue&lt;mydata&gt; sta1;        stack&lt;char&gt; sta2;        string stmp = &quot;&quot;;        for (i = 0; i &lt; len; i++)        {            char c = s[i];            if ((c &gt;= &apos;0&apos; &amp;&amp; c &lt;= &apos;9&apos;) || c == &apos;.&apos;)            {                stmp +=c;            }            else if (c == &apos;+&apos; || c == &apos;-&apos;)            {                if (i == 0)                {                    stmp += c;                }                else{                    if (stmp != &quot;&quot;){                        //double dt = str2double(stmp);                        mydata dd(stmp, &apos;0&apos;);                        stmp = &quot;&quot;;                        sta1.push(dd);                    }                    else{                        if (!sta2.empty() &amp;&amp; sta2.top() == &apos;(&apos;)                        {                            if (c == &apos;-&apos;)                            {                                stmp += c;                                continue;                            }                            else if (c == &apos;+&apos;){                                continue;                            }                        }                    }                    if (sta2.empty()){                        sta2.push(c);                        continue;                    }                    char copeUp = sta2.top();                    if (opeprior(c) &gt; opeprior(copeUp) &amp;&amp; copeUp != &apos;(&apos;)                    {                        sta2.push(c);                    }                    else if (copeUp == &apos;(&apos;){                        sta2.push(c);                    }                    else{                        while (!sta2.empty() &amp;&amp; opeprior(copeUp) &gt;= opeprior(c))                        {                            mydata dd(&quot;0&quot;, copeUp);                            sta1.push(dd);                            sta2.pop();                            if (sta2.empty())                                break;                            copeUp = sta2.top();                            if (copeUp == &apos;(&apos;)                            {                                break;                            }                        }                        sta2.push(c);                    }                }            }            else if (c == &apos;*&apos; || c == &apos;/&apos;)            {                if (stmp != &quot;&quot;){                    //double dt = str2double(stmp);                    mydata dd(stmp, &apos;0&apos;);                    stmp = &quot;&quot;;                    sta1.push(dd);                }                if (sta2.empty()){                    sta2.push(c);                    continue;                }                char copeUp = sta2.top();                if (opeprior(c) &gt; opeprior(copeUp) &amp;&amp; copeUp != &apos;(&apos;)                {                    sta2.push(c);                }                else if (copeUp == &apos;(&apos;){                    sta2.push(c);                }                else{                    while (!sta2.empty() &amp;&amp; opeprior(copeUp) &gt;= opeprior(c))                    {                        mydata dd(&quot;0&quot;, copeUp);                        sta1.push(dd);                        sta2.pop();                        if (sta2.empty())                            break;                        copeUp = sta2.top();                        if (copeUp == &apos;(&apos;)                        {                            break;                        }                    }                    sta2.push(c);                }            }            else if (c == &apos;(&apos;)            {                sta2.push(c);            }            else if (c == &apos;)&apos;){                if (stmp != &quot;&quot;)                {                    mydata dd(stmp, &apos;0&apos;);                    stmp = &quot;&quot;;                    sta1.push(dd);                }                // 找到第一个（ 全部出栈                char cope = sta2.top();                if (cope == &apos;(&apos;)                {                    sta2.pop();                    continue;                }                while (cope != &apos;(&apos;)                {                    mydata dd(&quot;0&quot;, sta2.top());                    sta1.push(dd);                    sta2.pop();                    cope = sta2.top();                    if (cope == &apos;(&apos;)                    {                        sta2.pop();                    }                }            }        }        if (stmp != &quot;&quot;) // 输入的表达式最后一个为处理的数据        {            mydata dd(stmp, &apos;0&apos;);            stmp = &quot;&quot;;            sta1.push(dd);        }        while (!sta2.empty()) // 最后栈中剩余的符号        {            char copeUp = sta2.top();            mydata dd(&quot;0&quot;, copeUp);            sta1.push(dd);            sta2.pop();            if (sta2.empty())                break;        }        int size2 = sta1.size();        bool flag = false;        // 结果输出        while (!sta1.empty())        {            mydata st = sta1.front();            if (st.c == &apos;+&apos; || st.c == &apos;-&apos; || st.c == &apos;*&apos; || st.c == &apos;/&apos;)            {                if (!flag){                    printf(&quot;%c&quot;, st.c);                    flag = true;                }                else{                    printf(&quot; %c&quot;, st.c);                }            }            else{                if (!flag){                    cout &lt;&lt; st.d;                    flag = true;                }                else{                    cout &lt;&lt; &quot; &quot; &lt;&lt; st.d;                }            }            sta1.pop();        }        printf(&quot;\n&quot;);    }// while    return 0;}</code></pre><h5 id="编程实现-2"><a href="#编程实现-2" class="headerlink" title="编程实现[2]:"></a>编程实现[2]:</h5><pre><code>#include &lt;bits/stdc++.h&gt;using namespace std;char a[22];char oper[22];bool judge(char x){    return ((x&lt;=&apos;9&apos; &amp;&amp; x&gt;=&apos;0&apos;) || x==&apos;.&apos;);}int main(){    scanf(&quot;%s&quot;, a);    int i, j;    char num[22];    int siz=0;    int isfirst=1;    int top=0;    for(i=0; a[i]; i++)    {        if(judge(a[i]))        {            num[siz++]=a[i];        }        else        {            if(siz&gt;0)            {            if(isfirst){isfirst=0;}            else printf(&quot; &quot;);            for(j=0; j&lt;siz; j++)            {                printf(&quot;%c&quot;, num[j]);            }            siz=0;            }            if( (a[i]==&apos;-&apos;) &amp;&amp; (i==0 || (i&gt;0 &amp;&amp; !judge(a[i-1]))))            {              if(a[i]==&apos;-&apos;)  num[siz++]=a[i];                continue;            }            if(a[i]==&apos;+&apos; &amp;&amp; (i==0 || (i&gt;0 &amp;&amp; !judge(a[i-1]) &amp;&amp;  a[i-1]!=&apos;)&apos;)))            {               continue;            }            if(a[i]==&apos;-&apos; || a[i]==&apos;+&apos;)            {               // printf(&quot;\noper%c\n&quot;, oper[top]);                while(top&gt;0 &amp;&amp; (oper[top]==&apos;+&apos; || oper[top]==&apos;-&apos; || oper[top]==&apos;*&apos; || oper[top]==&apos;/&apos;))                {                    printf(&quot; %c&quot;, oper[top--]);                }                oper[++top]=a[i];            }            if(a[i]==&apos;*&apos; || a[i]==&apos;/&apos;)            {                if(top&gt;0 &amp;&amp; ( oper[top]==&apos;*&apos; || oper[top]==&apos;/&apos;))printf(&quot; %c&quot;, oper[top--]);                oper[++top]=a[i];            }            if(a[i]==&apos;(&apos;)            {                oper[++top]=a[i];            }            if(a[i]==&apos;)&apos;)            {                while(top&gt;0 &amp;&amp; oper[top]!=&apos;(&apos;)                {                    printf(&quot; %c&quot;, oper[top--]);                }                top--;            }        }    }            if(siz&gt;0)            {            if(isfirst){isfirst=0;}            else printf(&quot; &quot;);            for(j=0; j&lt;siz; j++)            {                printf(&quot;%c&quot;, num[j]);            }            siz=0;            }    for(i=top; i&gt;0; i--)printf(&quot; %c&quot;, oper[i]);}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 栈 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>符号配对</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E7%AC%A6%E5%8F%B7%E9%85%8D%E5%AF%B9/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E7%AC%A6%E5%8F%B7%E9%85%8D%E5%AF%B9/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>请编写程序检查C语言源程序中下列符号是否配对：/<em>与</em>/、(与)、[与]、{与}。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入为一个C语言源程序。当读到某一行中只有一个句点.和一个回车的时候，标志着输入结束。程序中需要检查配对的符号不超过100个。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>首先，如果所有符号配对正确，则在第一行中输出YES，否则输出NO。然后在第二行中指出第一个不配对的符号：如果缺少左符号，则输出?-右符号；如果缺少右符号，则输出左符号-?。</p><h5 id="输入样例1："><a href="#输入样例1：" class="headerlink" title="输入样例1："></a>输入样例1：</h5><pre><code>void test(){    int i, A[10];    for (i=0; i&lt;10; i++) /*/        A[i] = i;}</code></pre><h5 id="输出样例1："><a href="#输出样例1：" class="headerlink" title="输出样例1："></a>输出样例1：</h5><p>NO</p><p>/*-?</p><h5 id="输入样例2："><a href="#输入样例2：" class="headerlink" title="输入样例2："></a>输入样例2：</h5><pre><code>void test(){    int i, A[10];    for (i=0; i&lt;10; i++) /**/        A[i] = i;}].</code></pre><h5 id="输出样例2："><a href="#输出样例2：" class="headerlink" title="输出样例2："></a>输出样例2：</h5><p>NO</p><p>?-]</p><h5 id="输入样例3："><a href="#输入样例3：" class="headerlink" title="输入样例3："></a>输入样例3：</h5><pre><code>void test(){    int i    double A[10];    for (i=0; i&lt;10; i++) /**/        A[i] = 0.1*i;}.</code></pre><h5 id="输出样例3："><a href="#输出样例3：" class="headerlink" title="输出样例3："></a>输出样例3：</h5><p>YES</p><h5 id="编程实现-1"><a href="#编程实现-1" class="headerlink" title="编程实现[1]:"></a>编程实现[1]:</h5><pre><code>#include &lt;stdio.h&gt;#include &lt;string.h&gt;#include &lt;iostream&gt;#include &lt;algorithm&gt;#include&lt;malloc.h&gt;using namespace std;#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;#define STACK_INIT_SIZE 100#define STACKINCRMENT 10typedef char SElemType;typedef struct{     SElemType *base;     SElemType *top;     int stacksize;}SqStack;Status InitStack(SqStack &amp;S){  //初始化L为一个空的栈    S.base = (SElemType*)malloc(STACK_INIT_SIZE*sizeof(SElemType));    if(!S.base)exit(OVERFLOW);    S.top=S.base;    S.stacksize=STACK_INIT_SIZE;    return OK;}Status Push(SqStack &amp;S,SElemType &amp;e){     if(S.top-S.base&gt;=S.stacksize)     {         S.base = (SElemType*)realloc(S.base,(S.stacksize+STACKINCRMENT)*sizeof(SElemType));         if(!S.base)exit(OVERFLOW);         S.top = S.base+S.stacksize;         S.stacksize+=STACKINCRMENT;     }    *S.top=e;    S.top++;    return OK;}//Status GetTop(SqStack &amp;S,SElemType &amp;e)//{//    if(S.top==S.base)return ERROR;//    e=*(S.top-1);//    return OK;//}Status Pop(SqStack &amp;S){    if(S.top==S.base)        return ERROR;    S.top--;    return OK;}Status StackEmpty(SqStack S){    if(S.top==S.base)        return TRUE;    else        return FALSE;}void print(char ch) {    if(ch == &apos;(&apos;) printf(&quot;(-?\n&quot;);    else if(ch == &apos;[&apos;) printf(&quot;[-?\n&quot;);    else if(ch == &apos;{&apos;) printf(&quot;{-?\n&quot;);    else if(ch == &apos;&lt;&apos;) printf(&quot;/*-?\n&quot;);}int main() {    char str[1000];    SqStack S;    InitStack(S);    int flag = 1;    while(1){        gets(str);        if(str[0] == &apos;.&apos; &amp;&amp; str[1] == 0) break;        int i;        for(i = 0; str[i]; i++)        {            if(flag == 0) break;            if(str[i] == &apos;(&apos; || str[i] == &apos;[&apos; || str[i] == &apos;{&apos;) {                Push(S,str[i]);            }            else if(str[i] == &apos;/&apos; &amp;&amp; str[i + 1] == &apos;*&apos;) {                    char e = &apos;&lt;&apos;;                Push(S,e);                i++;            }            else if(str[i] == &apos;)&apos;) {                if(!StackEmpty(S) &amp;&amp; *(S.top-1) == &apos;(&apos;)                    Pop(S);                else {                    printf(&quot;NO\n&quot;);                    flag = 0;                    if(StackEmpty(S)) {                        printf(&quot;?-)\n&quot;);                    }                    else {                        print(*(S.top-1));                    }                    break;                }            }            else if(str[i] == &apos;]&apos;) {                if(!StackEmpty(S) &amp;&amp; *(S.top-1) == &apos;[&apos;) Pop(S);                else {                    printf(&quot;NO\n&quot;);                    flag = 0;                    if(StackEmpty(S)) {                        printf(&quot;?-]\n&quot;);                    }                    else {                        print(*(S.top-1));                    }                    break;                }            }            else if(str[i] == &apos;}&apos;) {                if(!StackEmpty(S) &amp;&amp;*(S.top-1)== &apos;{&apos;) Pop(S);                else {                    printf(&quot;NO\n&quot;);                    flag = 0;                    if(StackEmpty(S)) {                        printf(&quot;?-}\n&quot;);                    }                    else {                        print(*(S.top-1));                    }                    break;                }            }            else if(str[i] == &apos;*&apos; &amp;&amp; str[i + 1] == &apos;/&apos;) {                i++;   //不要忘记往后多走一格                if(!StackEmpty(S) &amp;&amp; *(S.top-1) == &apos;&lt;&apos;) Pop(S);                else {                    printf(&quot;NO\n&quot;);                    flag = 0;                    if(StackEmpty(S)) {                        printf(&quot;?-*/\n&quot;);                    }                    else {                        print(*(S.top-1));                    }                    break;                }            }        }    }    if(flag &amp;&amp; StackEmpty(S)) printf(&quot;YES\n&quot;);    else if(flag) {        printf(&quot;NO\n&quot;);   //即使flag==0，也有可能不配对        print(*(S.top-1));    }    return 0;}</code></pre><h5 id="编程实现-2"><a href="#编程实现-2" class="headerlink" title="编程实现[2]:"></a>编程实现[2]:</h5><pre><code>#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;cstring&gt;#include &lt;algorithm&gt;#include &lt;stack&gt;using namespace std;void print(char ch) {    if(ch == &apos;(&apos;) printf(&quot;(-?\n&quot;);    else if(ch == &apos;[&apos;) printf(&quot;[-?\n&quot;);    else if(ch == &apos;{&apos;) printf(&quot;{-?\n&quot;);    else if(ch == &apos;&lt;&apos;) printf(&quot;/*-?\n&quot;);}int main() {    char str[1000];    stack &lt;char&gt; s;    int flag = 1;    while(1){        gets(str);        if(str[0] == &apos;.&apos; &amp;&amp; str[1] == 0) break;        int i;        for(i = 0; str[i]; i++) {            if(flag == 0) break;   //打印出来一次，以后就不必再往后看了            if(str[i] == &apos;(&apos; || str[i] == &apos;[&apos; || str[i] == &apos;{&apos;) {                s.push(str[i]);            }            else if(str[i] == &apos;/&apos; &amp;&amp; str[i + 1] == &apos;*&apos;) {                s.push(&apos;&lt;&apos;);                i++;            }            else if(str[i] == &apos;)&apos;) {                if(!s.empty() &amp;&amp; s.top() == &apos;(&apos;) s.pop();                else {                    printf(&quot;NO\n&quot;);                    flag = 0;                    if(s.empty()) {                        printf(&quot;?-)\n&quot;);                    }                    else {                        print(s.top());                    }                    break;                }            }            else if(str[i] == &apos;]&apos;) {                if(!s.empty() &amp;&amp; s.top() == &apos;[&apos;) s.pop();                else {                    printf(&quot;NO\n&quot;);                    flag = 0;                    if(s.empty()) {                        printf(&quot;?-]\n&quot;);                    }                    else {                        print(s.top());                    }                    break;                }            }            else if(str[i] == &apos;}&apos;) {                if(!s.empty() &amp;&amp; s.top() == &apos;{&apos;) s.pop();                else {                    printf(&quot;NO\n&quot;);                    flag = 0;                    if(s.empty()) {                        printf(&quot;?-}\n&quot;);                    }                    else {                        print(s.top());                    }                    break;                }            }            else if(str[i] == &apos;*&apos; &amp;&amp; str[i + 1] == &apos;/&apos;) {                i++;   //不要忘记往后多走一格                if(!s.empty() &amp;&amp; s.top() == &apos;&lt;&apos;) s.pop();                else {                    printf(&quot;NO\n&quot;);                    flag = 0;                    if(s.empty()) {                        printf(&quot;?-*/\n&quot;);                    }                    else {                        print(s.top());                    }                    break;                }            }        }    }    if(flag &amp;&amp; s.empty()) printf(&quot;YES\n&quot;);    else if(flag) {        printf(&quot;NO\n&quot;);   //即使flag==0，也有可能不配对        print(s.top());    }    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 栈 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>有序顺序表插入</title>
+      <link href="/%5Bobject%20Object%5D/%E6%9C%89%E5%BA%8F%E9%A1%BA%E5%BA%8F%E8%A1%A8%E6%8F%92%E5%85%A5/"/>
+      <url>/%5Bobject%20Object%5D/%E6%9C%89%E5%BA%8F%E9%A1%BA%E5%BA%8F%E8%A1%A8%E6%8F%92%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>已知一个递增有序链表L（带头结点，元素为整数），编写程序将一个新整数插入到L中，并保持L的有序性。 其中单链表的类型定义参考如下：</p><pre><code>typedef int elementType;typedef struct lnode{ elementType data;struct lnode *next;}Lnode,* LinkList;</code></pre><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入分三行</p><p>第一行 元素个数</p><p>第二行 元素的值，元素间用空格分隔。</p><p>第三行 待插入的元素值</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>在一行中输出有序链表元素值，每个元素前输出一个空格以便与相邻元素分隔。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>5</p><p>1 3 5 7 9</p><p>4</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p> 1 3 4 5 7 9</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;#include&lt;iostream&gt;using namespace std;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;typedef int  ElemType; //假设线性表中的元素均为整型typedef struct LNode{    ElemType data;    struct LNode *next;}LNode,*LinkList;Status ListCreate_L(LinkList &amp;L,int n){    LNode *rearPtr,*curPtr;   //一个尾指针，一个指向新节点的指针    L=(LNode*)malloc(sizeof (LNode));//先建立一个带头结点的单链表    if(!L)exit(OVERFLOW);    L-&gt;next=NULL;    rearPtr=L;  //初始时头结点为尾节点,rearPtr指向尾巴节点    for (int i=1;i&lt;=n;i++){  //每次循环都开辟一个新节点，并把新节点拼到尾节点后        curPtr=(LNode*)malloc(sizeof(LNode));//生成新结点        if(!curPtr)exit(OVERFLOW);        scanf(&quot;%d&quot;,&amp;curPtr-&gt;data);//输入元素值        curPtr-&gt;next=NULL;  //最后一个节点的next赋空        rearPtr-&gt;next=curPtr;        rearPtr=curPtr;    }    return OK;}Status ListInsert(LinkList &amp;L,ElemType e){    /*思路：找到第一个比e大的节点然后 ，把这个新元素插在节点之前怎样找？从第一个元素开始逐个比较，遇到则为为组织怎样插入?开辟一个新节点，数据域赋值为e；把新节点放在大节点之前，需要设置前驱指针注意：万一e比任何元素都大，*/    LNode *curPtr ,*prePtr,*temPtr;    if(L-&gt;next==NULL)    {        temPtr=(LNode*)malloc(sizeof(LNode));//生成新结点      if(!temPtr)        exit(OVERFLOW);    temPtr-&gt;data=e;    temPtr-&gt;next=NULL;    L-&gt;next=temPtr;    return OK;    }    prePtr=L;    curPtr=L-&gt;next;    while(curPtr&amp;&amp;curPtr-&gt;data&lt;=e)    {        prePtr=curPtr;        curPtr=curPtr-&gt;next;    }    temPtr=(LNode*)malloc(sizeof(LNode));//生成新结点    if(!temPtr)        exit(OVERFLOW);    temPtr-&gt;data=e;    temPtr-&gt;next=curPtr;    prePtr-&gt;next=temPtr;return OK;}void ListPrint_CL(LinkList &amp;CL){   //输出单链表,空表时输出Empty List。    LNode *p=CL-&gt;next;  //p指向第一个元素结点    while(p)    {        printf(&quot; %d&quot;,p-&gt;data);        p=p-&gt;next;    }}int main(){    LinkList L;    int n;    int e;    cin&gt;&gt;n;  //输入链表中元素个数    if(ListCreate_L(L,n)!= OK) {          return -1;    }    cin&gt;&gt;e;    ListInsert(L,e);    ListPrint_CL(L);     return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>有序顺序表的插入</title>
+      <link href="/%5Bobject%20Object%5D/%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E4%B8%8E%E9%A1%BA%E5%BA%8F%E8%A1%A8%E6%93%8D%E4%BD%9C---%20%E6%9C%89%E5%BA%8F%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84%E6%8F%92%E5%85%A5/"/>
+      <url>/%5Bobject%20Object%5D/%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E4%B8%8E%E9%A1%BA%E5%BA%8F%E8%A1%A8%E6%93%8D%E4%BD%9C---%20%E6%9C%89%E5%BA%8F%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84%E6%8F%92%E5%85%A5/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现递增顺序表的有序插入函数。L是一个递增的有序顺序表，函数Status ListInsert_SortedSq(SqList &amp;L, ElemType e)用于向顺序表中按递增的顺序插入一个数据。 比如：原数据有：2 5，要插入一个元素3，那么插入后顺序表为2 3 5。 要考虑扩容的问题。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>Status ListInsert_SortedSq(SqList &amp;L, ElemType e);</code></pre><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;//顺序表的存储结构定义#define LIST_INIT_SIZE  100#define LISTINCREMENT   10typedef int ElemType;  //假设线性表中的元素均为整型typedef struct{    ElemType* elem;   //存储空间基地址    int length;       //表中元素的个数    int listsize;     //表容量大小}SqList;    //顺序表类型定义//函数声明Status ListInsert_SortedSq(SqList &amp;L, ElemType e);//顺序表初始化函数Status InitList_Sq(SqList &amp;L){    //开辟一段空间    L.elem = (ElemType*)malloc(LIST_INIT_SIZE * sizeof(ElemType));    //检测开辟是否成功    if(!L.elem){        exit(OVERFLOW);    }    //赋值    L.length = 0;    L.listsize = LIST_INIT_SIZE;    return OK;}//顺序表输出函数void ListPrint_Sq(SqList L){    ElemType *p = L.elem;//遍历元素用的指针    for(int i = 0; i &lt; L.length; ++i){        if(i == L.length - 1){            printf(&quot;%d&quot;, *(p+i));        }        else{            printf(&quot;%d &quot;, *(p+i));        }    }}int main(){    //声明一个顺序表    SqList L;    //初始化顺序表    InitList_Sq(L);    int number = 0;    ElemType e;     scanf(&quot;%d&quot;, &amp;number);//插入数据的个数     for(int i = 0; i &lt; number; ++i)    {    scanf(&quot;%d&quot;, &amp;e);//输入数据        ListInsert_SortedSq(L, e);    }    ListPrint_Sq(L);    return  0;}</code></pre><h5 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h5><p>第一行输入接下来要插入的数字的个数 第二行输入数字 输出格式： 输出插入之后的数字</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>5<br>2 3 9 8 4</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>2 3 4 8 9</p><h5 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h5><pre><code>Status ListInsert_SortedSq(SqList &amp;L, ElemType e){     ElemType *p,*q;    if(L.length &gt;= L.listsize){        L.elem= (ElemType*)realloc(L.elem,(L.listsize+LISTINCREMENT)*sizeof(ElemType));        L.listsize += LISTINCREMENT;    }    p=L.elem;    if(L.length==0)    {        *p=e;        L.length++;    }    else    {       while(e&gt;=*p&amp;&amp;p&lt;=L.elem+L.length-1)       {           p++;       }       for(q=L.elem+L.length-1;q&gt;=p;q--)       {           *(q+1)=*q;       }       *p=e;        L.length++;    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 线性表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>堆栈操作合法性</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E5%A0%86%E6%A0%88%E6%93%8D%E4%BD%9C%E5%90%88%E6%B3%95%E6%80%A7/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8%E6%A0%88%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E5%A0%86%E6%A0%88%E6%93%8D%E4%BD%9C%E5%90%88%E6%B3%95%E6%80%A7/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>假设以S和X分别表示入栈和出栈操作。如果根据一个仅由S和X构成的序列，对一个空堆栈进行操作，相应操作均可行（如没有出现删除时栈空）且最后状态也是栈空，则称该序列是合法的堆栈操作序列。请编写程序，输入S和X序列，判断该序列是否合法。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入第一行给出两个正整数N和M，其中N是待测序列的个数，M（≤50）是堆栈的最大容量。随后N行，每行中给出一个仅由S和X构成的序列。序列保证不为空，且长度不超过100。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>对每个序列，在一行中输出YES如果该序列是合法的堆栈操作序列，或NO如果不是。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>4 10</p><p>SSSXXSXXSX</p><p>SSSXXSXXS</p><p>SSSSSSSSSSXSSXXXXXXXXXXX</p><p>SSSXXSXXX</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>YES</p><p>NO</p><p>NO</p><p>NO</p><h5 id="编程实现-1"><a href="#编程实现-1" class="headerlink" title="编程实现[1]:"></a>编程实现[1]:</h5><pre><code>#include &lt;stdio.h&gt;#include &lt;string.h&gt;#include &lt;iostream&gt;#include &lt;algorithm&gt;#include&lt;malloc.h&gt;using namespace std;#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;#define STACK_INIT_SIZE 100//#define STACKINCRMENT 10;typedef char SElemType;typedef struct{     SElemType *base;     SElemType *top;     int stacksize;}SqStack;Status InitStack(SqStack &amp;S){  //初始化L为一个空的栈    S.base = (SElemType*)malloc(STACK_INIT_SIZE*sizeof(SElemType));    if(!S.base)exit(OVERFLOW);    S.top=S.base;    S.stacksize=STACK_INIT_SIZE;    return OK;}Status Push(SqStack &amp;S){     if(S.top-S.base&gt;=S.stacksize)return ERROR;    S.top++;    return OK;}Status Pop(SqStack &amp;S){    S.top--;    return OK;}Status StackEmpty(SqStack S){    if(S.top==S.base)        return TRUE;    else        return FALSE;}int main(){    int count=0,sum=0;    char a[1000];    int n,maxsize;    SqStack S;    cin&gt;&gt;n&gt;&gt;maxsize;    getchar();    while(n--)   {       InitStack(S);        count = 0;        sum = 0;        gets(a);        int len;        len=strlen(a);        for(int i = 0; i &lt; len; ++i){            if(a[i] == &apos;S&apos;){                Push(S);                ++sum;                if(sum &gt; maxsize){                    printf(&quot;NO\n&quot;);                    count = 1;                    break;                }            }            else {                if(StackEmpty(S)){                    printf(&quot;NO\n&quot;);                    count = 1;                    break;                }                else {                    Pop(S);                    --sum;                }            }        }        if(count == 0 &amp;&amp; StackEmpty(S))            printf(&quot;YES\n&quot;);        else if(count == 0 &amp;&amp; !StackEmpty(S))            printf(&quot;NO\n&quot;);    }    return 0;}</code></pre><h5 id="编程实现-2"><a href="#编程实现-2" class="headerlink" title="编程实现[2]:"></a>编程实现[2]:</h5><pre><code>#include &lt;stdio.h&gt;#include &lt;string.h&gt;#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;stack&gt;using namespace std;stack&lt;char&gt; ss;char a[1000];int len, sum;int main(){    int N, M, i, count;    scanf(&quot;%d%d&quot;, &amp;N, &amp;M);    getchar();    while(N--)   {        while(!ss.empty())            ss.pop();        count = 0;        sum = 0;        gets(a);        //printf(&quot;%s\n&quot;, a);        len = strlen(a);        for(i = 0; i &lt; len; ++i){            if(a[i] == &apos;S&apos;){                ss.push(a[i]);                ++sum;                if(sum &gt; M){                    printf(&quot;NO\n&quot;);                    count = 1;                    break;                }            }            else {                if(ss.empty()){                    printf(&quot;NO\n&quot;);                    count = 1;                    break;                }                else {                    ss.pop();                    --sum;                }            }        }        if(count == 0 &amp;&amp; ss.empty())            printf(&quot;YES\n&quot;);        else if(count == 0 &amp;&amp; !ss.empty())            printf(&quot;NO\n&quot;);    }    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 栈 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>家谱处理</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%91%E5%92%8C%E6%A3%AE%E6%9E%97---%E5%AE%B6%E8%B0%B1%E5%A4%84%E7%90%86/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%91%E5%92%8C%E6%A3%AE%E6%9E%97---%E5%AE%B6%E8%B0%B1%E5%A4%84%E7%90%86/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>人类学研究对于家族很感兴趣，于是研究人员搜集了一些家族的家谱进行研究。实验中，使用计算机处理家谱。为了实现这个目的，研究人员将家谱转换为文本文件。下面为家谱文本文件的实例：</p><pre><code>John  Robert    Frank    Andrew  Nancy    David</code></pre><p>家谱文本文件中，每一行包含一个人的名字。第一行中的名字是这个家族最早的祖先。家谱仅包含最早祖先的后代，而他们的丈夫或妻子不出现在家谱中。每个人的子女比父母多缩进2个空格。以上述家谱文本文件为例，John这个家族最早的祖先，他有两个子女Robert和Nancy，Robert有两个子女Frank和Andrew，Nancy只有一个子女David。</p><a id="more"></a><p>在实验中，研究人员还收集了家庭文件，并提取了家谱中有关两个人关系的陈述语句。下面为家谱中关系的陈述语句实例：</p><pre><code>John is the parent of RobertRobert is a sibling of NancyDavid is a descendant of Robert</code></pre><p>研究人员需要判断每个陈述语句是真还是假，请编写程序帮助研究人员判断。</p><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入首先给出2个正整数N（2≤N≤100）和M（≤100），其中N为家谱中名字的数量，M为家谱中陈述语句的数量，输入的每行不超过70个字符。</p><p>名字的字符串由不超过10个英文字母组成。在家谱中的第一行给出的名字前没有缩进空格。家谱中的其他名字至少缩进2个空格，即他们是家谱中最早祖先（第一行给出的名字）的后代，且如果家谱中一个名字前缩进k个空格，则下一行中名字至多缩进k+2个空格。</p><p>在一个家谱中同样的名字不会出现两次，且家谱中没有出现的名字不会出现在陈述语句中。每句陈述语句格式如下，其中X和Y为家谱中的不同名字：</p><pre><code>X is a child of YX is the parent of YX is a sibling of YX is a descendant of YX is an ancestor of Y</code></pre><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>对于测试用例中的每句陈述语句，在一行中输出True，如果陈述为真，或False，如果陈述为假。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><pre><code>6 5John  Robert    Frank    Andrew  Nancy    DavidRobert is a child of JohnRobert is an ancestor of AndrewRobert is a sibling of NancyNancy is the parent of FrankJohn is a descendant of Andrew</code></pre><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><pre><code>TrueTrueTrueFalseFalse</code></pre><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;#include &lt;string.h&gt;struct people {    int num;    char name[15];    char father[15];}t1[101];int main(){    int n, m,i; char na[71];    scanf(&quot;%d %d&quot;, &amp;n, &amp;m);    getchar();    for (i=0;i&lt;n;i++) {        t1[i].num = 0;        gets(na);        int l = strlen(na),j;        for (j = 0; j &lt; l; j++) {            if (na[j] == &apos; &apos;) t1[i].num++;            else {                strcpy(t1[i].name, na + j);                break;            }        }        if (!t1[i].num) strcpy(t1[i].father, &quot;root&quot;);        else {            int k;            for (k = i-1; k &gt;= 0; k--) {                if (t1[i].num&gt;t1[k].num) {                    strcpy(t1[i].father, t1[k].name);                    break;                }            }        }    }//out    char a[15], b[10], c[15], d[10];    for (i = 0; i &lt; m; i++) {        int k;        scanf(&quot;%s %s %s %s %s %s&quot;, &amp;a, &amp;d, &amp;d, &amp;b, &amp;d, &amp;c);        if (b[0] == &apos;c&apos;) {            for (k = 0; k &lt; n; k++) {                if (!strcmp(t1[k].name, a)) {                    if (!strcmp(t1[k].father, c))                        printf(&quot;True\n&quot;);                    else printf(&quot;False\n&quot;);                    break;                }            }        }        else if (b[0] == &apos;p&apos;) {            for (k = 0; k &lt; n; k++) {                if (!strcmp(t1[k].name, c)) {                    if (!strcmp(t1[k].father, a))                        printf(&quot;True\n&quot;);                    else printf(&quot;False\n&quot;);                    break;                }            }        }        else if (b[0] == &apos;s&apos;) {            char num1[15], num2[15];            for (k = 0; k &lt; n; k++) {                if (!strcmp(t1[k].name, a)) strcpy(num1, t1[k].father);                if (!strcmp(t1[k].name, c)) strcpy(num2, t1[k].father);            }            if(!strcmp(num1,num2)) printf(&quot;True\n&quot;);            else printf(&quot;False\n&quot;);        }        else if (b[0] == &apos;a&apos;) {            char num1[15];            for (k = 0; k &lt; n; k++)                if (!strcmp(t1[k].name, c)) strcpy(num1, t1[k].father);            while (strcmp(num1, a) &amp;&amp; strcmp(num1, &quot;root&quot;)) {                for (k = 0; k &lt; n; k++)                    if (!strcmp(t1[k].name, num1)) strcpy(num1, t1[k].father);            }            if(!strcmp(num1,&quot;root&quot;)) printf(&quot;False\n&quot;);            else printf(&quot;True\n&quot;);        }        else if (b[0] == &apos;d&apos;) {            char num1[15];            for (k = 0; k &lt; n; k++)                if (!strcmp(t1[k].name, a)) strcpy(num1, t1[k].father);            while (strcmp(num1, c) &amp;&amp; strcmp(num1, &quot;root&quot;)) {                for (k = 0; k &lt; n; k++)                    if (!strcmp(t1[k].name, num1)) strcpy(num1, t1[k].father);            }            if (!strcmp(num1, &quot;root&quot;)) printf(&quot;False\n&quot;);            else printf(&quot;True\n&quot;);        }        getchar();    }    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 树 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>循环单链表区间删除</title>
+      <link href="/%5Bobject%20Object%5D/%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%8F%8A%E5%85%B6%E6%93%8D%E4%BD%9C--%E5%BE%AA%E7%8E%AF%E5%8D%95%E9%93%BE%E8%A1%A8%E5%8C%BA%E9%97%B4%E5%88%A0%E9%99%A4/"/>
+      <url>/%5Bobject%20Object%5D/%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%8F%8A%E5%85%B6%E6%93%8D%E4%BD%9C--%E5%BE%AA%E7%8E%AF%E5%8D%95%E9%93%BE%E8%A1%A8%E5%8C%BA%E9%97%B4%E5%88%A0%E9%99%A4/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现带头结点的循环单链表的创建和单链表的区间删除。L是一个带头结点的循环单链表，函数ListCreate_CL用于创建一个循环单链表，函数ListDelete_CL用于删除取值大于min小于max的链表元素。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>Status ListCreate_CL(LinkList &amp;CL); void ListDelete_CL(LinkList &amp;CL,ElemType min,ElemType max);</code></pre><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;typedef int  ElemType; //假设线性表中的元素均为整型  typedef struct LNode{      ElemType data;      struct LNode *next; }LNode,*LinkList; //循环单链表类型定义与单链表定义相同，区别在尾节点next取值Status ListCreate_CL(LinkList &amp;CL);  void ListDelete_CL(LinkList &amp;CL, ElemType min, ElemType max);void ListPrint_CL(LinkList &amp;CL) {   //输出单链表,空表时输出Empty List。     LNode *p=CL-&gt;next;  //p指向第一个元素结点    if(p==CL){      printf(&quot;Empty List&quot;);      return;    }    while(p!=CL)      {           if(p-&gt;next!=CL)            printf(&quot;%d &quot;,p-&gt;data);           else            printf(&quot;%d&quot;,p-&gt;data);              p=p-&gt;next;     } }   int main() {      LinkList CL;    ElemType min,max;    if(ListCreate_CL(CL)!= OK)     {       printf(&quot;循环链表创建失败！！！\n&quot;);       return -1;    }    scanf(&quot;%d%d&quot;,&amp;min,&amp;max);        ListDelete_CL(CL,min,max);       ListPrint_CL(CL);          return 0;}</code></pre><h5 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h5><p>第一行输入一个整数n，表示循环单链表中元素个数，接下来一行共n个整数，中间用空格隔开。第三行输入min和max。</p><h5 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h5><p>输出删除后循环链表的各个元素，两个元素之间用空格隔开，最后一个元素后面没有空格。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>6<br>1 2 3 4 5 6<br>2 5</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>1 2 5 6</p><pre><code>Status ListCreate_CL(LinkList &amp;CL){    int n;    scanf(&quot;%d&quot;,&amp;n);//总共n个元素    LNode *realPtr,*temPtr;   //一个真实指针，一个临时指针    CL=(LNode*)malloc(sizeof (LNode));//先建立一个带头结点的单链表    if(!CL)exit(OVERFLOW);    CL-&gt;next=NULL;    realPtr=CL;  //初始时头结点为真实节点    for (int i=1;i&lt;=n;i++)    {  //每次循环都开辟一个新节点，并把新节点拼到尾节点后        temPtr=(LNode*)malloc(sizeof(LNode));//生成新结点        if(!temPtr)exit(OVERFLOW);        scanf(&quot;%d&quot;,&amp;temPtr-&gt;data);//输入元素值        //下面吧临时元素加入CL表中        realPtr-&gt;next=temPtr;        realPtr=temPtr;        realPtr-&gt;next=CL;//与表头连接起来    }     //realPtr-&gt;next=CL;//与表头连接起来    return OK;    }void ListDelete_CL(LinkList &amp;CL,ElemType min,ElemType max){    LNode *p,*q;//定义两个指针，一个指向cl ，另一个指向前一个指针的下一个地址    p = CL;//初始化p，指向表头    while (p-&gt;next!=CL)//当没循环晚一周时    {     q = p-&gt;next;//q为p的下一链表地址    if (q-&gt;data &gt; min&amp;&amp;q-&gt;data &lt; max)    {    p-&gt;next = q-&gt;next;//将p.next换为q.next实现删除操作    }    else p = p-&gt;next;//进行下一个操作判断    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>顺序表基本操作</title>
+      <link href="/%5Bobject%20Object%5D/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5--%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
+      <url>/%5Bobject%20Object%5D/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5--%E9%A1%BA%E5%BA%8F%E8%A1%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现顺序表元素的增、删、查找以及顺序表输出共4个基本操作函数。L是一个顺序表，函数Status ListInsert_Sq(SqList&amp;L, int pos, ElemType e)是在顺序表的pos位置插入一个元素e（pos应该从1开始），函数Status ListDelete_Sq(SqList &amp;L, int pos, ElemType &amp;e)是删除顺序表的pos位置的元素并用引用型参数e带回（pos应该从1开始），函数int ListLocate_Sq(SqList L, ElemType e)是查询元素e在顺序表的位次并返回（如有多个取第一个位置，返回的是位次，从1开始，不存在则返回0），函数void ListPrint_Sq(SqList L)是输出顺序表元素。实现时需考虑表满扩容的问题。</p><a id="more"></a><h2 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h2><pre><code>Status ListInsert_Sq(SqList &amp;L, int pos, ElemType e);Status ListDelete_Sq(SqList &amp;L, int pos, ElemType &amp;e);int ListLocate_Sq(SqList L, ElemType e);void ListPrint_Sq(SqList L);</code></pre><p>其中 L 是顺序表。 pos 是位置；e代表元素。当插入与删除操作中的pos参数非法时，函数返回ERROR，否则返回OK。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>#库函数头文件包括#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;#函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;//顺序表的存储结构定义#define LIST_INIT_SIZE  100#define LISTINCREMENT   10typedef int ElemType;  //假设线性表中的元素均为整型typedef struct{    ElemType* elem;   //存储空间基地址    int length;       //表中元素的个数    int listsize;     //表容量大小}SqList;    //顺序表类型定义Status ListInsert_Sq(SqList &amp;L, int pos, ElemType e);Status ListDelete_Sq(SqList &amp;L, int pos, ElemType &amp;e);int ListLocate_Sq(SqList L, ElemType e);void ListPrint_Sq(SqList L);//结构初始化与销毁操作Status InitList_Sq(SqList &amp;L){  //初始化L为一个空的有序顺序表    L.elem=(ElemType *)malloc(LIST_INIT_SIZE*sizeof(ElemType));    if(!L.elem)exit(OVERFLOW);    L.listsize=LIST_INIT_SIZE;    L.length=0;    return OK;}int main() {    SqList L;    if(InitList_Sq(L)!= OK) {        printf(&quot;InitList_Sq: 初始化失败！！！\n&quot;);        return -1;    }    for(int i = 1; i &lt;= 10; ++ i)        ListInsert_Sq(L, i, i);    int operationNumber;  //操作次数    scanf(&quot;%d&quot;, &amp;operationNumber);    while(operationNumber != 0) {        int operationType;  //操作种类        scanf(&quot;%d&quot;, &amp; operationType);        if(operationType == 1) {  //增加操作            int pos, elem;            scanf(&quot;%d%d&quot;, &amp;pos, &amp;elem);            ListInsert_Sq(L, pos, elem);        } else if(operationType == 2) {  //删除操作             int pos; ElemType elem;             scanf(&quot;%d&quot;, &amp;pos);             ListDelete_Sq(L, pos, elem);             printf(&quot;%d\n&quot;, elem);        } else if(operationType == 3) {  //查找定位操作            ElemType elem;            scanf(&quot;%d&quot;, &amp;elem);            int pos = ListLocate_Sq(L, elem);            if(pos &gt;= 1 &amp;&amp; pos &lt;= L.length)                printf(&quot;%d\n&quot;, pos);            else                printf(&quot;NOT FIND!\n&quot;);        } else if(operationType == 4) {  //输出操作            ListPrint_Sq(L);        }       operationNumber--;    }    return 0;}/* 请在这里填写答案 */</code></pre><h5 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h5><p>第一行输入一个整数operationNumber，表示操作数，接下来operationNumber行，每行表示一个操作信息（含“操作种类编号 操作内容”）。 编号为1表示插入操作，后面两个参数表示插入的位置和插入的元素值 编号为2表示删除操作，后面一个参数表示删除的位置 编号为3表示查找操作，后面一个参数表示查找的值 编号为4表示顺序表输出操作 输出格式： 对于操作2,输出删除的元素的值 对于操作3,输出该元素的位置，如果不存在该元素，输出“NOT FOUND”； 对于操作4,顺序输出整个顺序表的元素，两个元素之间用空格隔开，最后一个元素后面没有空格。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>4<br>1 1 11<br>2 2<br>3 3<br>4</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>1<br>3<br>11 2 3 4 5 6 7 8 9 10</p><h6 id="函数"><a href="#函数" class="headerlink" title="函数:"></a>函数:</h6><pre><code>Status ListInsert_Sq(SqList &amp;L, int pos, ElemType e){    ElemType *p,*q;    if(L.length &gt;= L.listsize){        ElemType* AAA= (ElemType*)realloc(L.elem,(L.listsize+LISTINCREMENT)*sizeof(ElemType));         L.elem=AAA;        L.listsize += LISTINCREMENT;    }    q = &amp;(L.elem[pos-1]);    for(p = &amp;(L.elem[L.length-1]);p &gt;= q;p--)        *(p+1) = *p;    *q = e;    L.length++;}Status ListDelete_Sq(SqList &amp;L, int pos, ElemType &amp;e){    int i; if(pos&lt;1||pos&gt;L.length)  return ERROR; e=L.elem[pos-1]; for(i=pos;i&lt;L.length;i++)  *(L.elem+i-1)=*(L.elem+i); L.length--; return OK;}int ListLocate_Sq(SqList L, ElemType e){    int i;    if(L.length==0)    return 0;    else    {    for(i = 0;i &lt; L.length;i++){        if(L.elem[i] == e)            return i+1;    }  }}void ListPrint_Sq(SqList L){ int i;    for(i = 0;i &lt; L.length;i++)    {         if(i==0)        printf(&quot;%d&quot;,L.elem[i]);        else        printf(&quot; %d&quot;,L.elem[i]);    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 顺序表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>单链表元素的定位</title>
+      <link href="/%5Bobject%20Object%5D/%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%8F%8A%E5%85%B6%E6%93%8D%E4%BD%9C--%E5%8D%95%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0%E7%9A%84%E5%AE%9A%E4%BD%8D/"/>
+      <url>/%5Bobject%20Object%5D/%E9%93%BE%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%8F%8A%E5%85%B6%E6%93%8D%E4%BD%9C--%E5%8D%95%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0%E7%9A%84%E5%AE%9A%E4%BD%8D/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求在链表中查找第一个数据域取值为x的节点，返回节点的位序。L是一个带头结点的单链表，函数ListLocate_L(LinkList L, ElemType x)要求在链表中查找第一个数据域取值为x的节点，返回其位序（从1开始），查找不到则返回0。例如，原单链表各个元素节点的元素依次为1,2,3,4，则ListLocate_L(L, 1)返回1，ListLocate_L(L, 3)返回3，而ListLocate_L(L, 100)返回0。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>int ListLocate_L(LinkList L, ElemType x)；</code></pre><p>其中 L 是一个带头节点的单链表。 x 是一个给定的值。函数须在链表中查找第一个数据域取值为x的节点。若找到则返回其位序（从1开始），找不到则返回0。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;typedef int  ElemType; //假设线性表中的元素均为整型typedef struct LNode{    ElemType data;    struct LNode *next;}LNode,*LinkList;Status ListCreate_L(LinkList &amp;L,int n){    LNode *rearPtr,*curPtr;   //一个尾指针，一个指向新节点的指针    L=(LNode*)malloc(sizeof (LNode));    if(!L)exit(OVERFLOW);    L-&gt;next=NULL;               //先建立一个带头结点的单链表    rearPtr=L;  //初始时头结点为尾节点,rearPtr指向尾巴节点    for (int i=1;i&lt;=n;i++){  //每次循环都开辟一个新节点，并把新节点拼到尾节点后        curPtr=(LNode*)malloc(sizeof(LNode));//生成新结点        if(!curPtr)exit(OVERFLOW);        scanf(&quot;%d&quot;,&amp;curPtr-&gt;data);//输入元素值        curPtr-&gt;next=NULL;  //最后一个节点的next赋空        rearPtr-&gt;next=curPtr;        rearPtr=curPtr;    }    return OK;}//下面是需要实现的函数的声明int ListLocate_L(LinkList L, ElemType x);int main(){    LinkList L;    int n;    int x,k;       scanf(&quot;%d&quot;,&amp;n);  //输入链表中元素个数    if(ListCreate_L(L,n)!= OK) {          printf(&quot;表创建失败！！！\n&quot;);          return -1;    }   scanf(&quot;%d&quot;,&amp;x); //输入待查找元素   k=ListLocate_L(L,x);   printf(&quot;%d\n&quot;,k);   return 0;}</code></pre><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例"></a>输入样例</h5><p>4<br>1 2 3 4<br>1</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>1</p><h5 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h5><pre><code>int ListLocate_L(LinkList L,ElemType x ){    int index = 1;    // 位序初值为1    //在带有头结点的线性链表L中查找数据域值为x的结点，找到返回该结点序号，没找到返回0    LNode *p =L-&gt;next;    //指针p指向第一个结点（如果是空表则为空）    while(p&amp;&amp;p-&gt;data!=x)    {//p不为空且p所指结点的数据域值不为x        p=p-&gt;next;        ++index;    // 索引自增    }    if(!p)//p是空，没找到节点        return 0;    else    return index;    // 返回索引值}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>邻接矩阵存储图的深度优先遍历</title>
+      <link href="/%5Bobject%20Object%5D/%E5%9B%BE%E7%9A%84%E6%A6%82%E5%BF%B5%20%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%92%8C%E9%81%8D%E5%8E%86---%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5%E5%AD%98%E5%82%A8%E5%9B%BE%E7%9A%84%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86(1)/"/>
+      <url>/%5Bobject%20Object%5D/%E5%9B%BE%E7%9A%84%E6%A6%82%E5%BF%B5%20%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%92%8C%E9%81%8D%E5%8E%86---%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5%E5%AD%98%E5%82%A8%E5%9B%BE%E7%9A%84%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86(1)/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>试实现邻接表存储图的广度优先遍历。。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>void BFS ( LGraph Graph, Vertex S, void (*Visit)(Vertex) );</code></pre><p>其中LGraph是邻接表存储的图，定义如下：</p><pre><code>/* 邻接点的定义 */typedef struct AdjVNode *PtrToAdjVNode; struct AdjVNode{    Vertex AdjV;        /* 邻接点下标 */    PtrToAdjVNode Next; /* 指向下一个邻接点的指针 */};/* 顶点表头结点的定义 */typedef struct Vnode{    PtrToAdjVNode FirstEdge; /* 边表头指针 */} AdjList[MaxVertexNum];     /* AdjList是邻接表类型 *//* 图结点的定义 */typedef struct GNode *PtrToGNode;struct GNode{      int Nv;     /* 顶点数 */    int Ne;     /* 边数   */    AdjList G;  /* 邻接表 */};typedef PtrToGNode LGraph; /* 以邻接表方式存储的图类型 */</code></pre><p>函数BFS应从第S个顶点出发对邻接表存储的图Graph进行广度优先搜索，遍历时用裁判定义的函数Visit访问每个顶点。当访问邻接点时，要求按邻接表顺序访问。题目保证S是图中的合法顶点。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>#include &lt;stdio.h&gt;typedef enum {false, true} bool;#define MaxVertexNum 10   /* 最大顶点数设为10 */typedef int Vertex;       /* 用顶点下标表示顶点,为整型 *//* 邻接点的定义 */typedef struct AdjVNode *PtrToAdjVNode; struct AdjVNode{    Vertex AdjV;        /* 邻接点下标 */    PtrToAdjVNode Next; /* 指向下一个邻接点的指针 */};/* 顶点表头结点的定义 */typedef struct Vnode{    PtrToAdjVNode FirstEdge; /* 边表头指针 */} AdjList[MaxVertexNum];     /* AdjList是邻接表类型 *//* 图结点的定义 */typedef struct GNode *PtrToGNode;struct GNode{      int Nv;     /* 顶点数 */    int Ne;     /* 边数   */    AdjList G;  /* 邻接表 */};typedef PtrToGNode LGraph; /* 以邻接表方式存储的图类型 */bool Visited[MaxVertexNum]; /* 顶点的访问标记 */LGraph CreateGraph(); /* 创建图并且将Visited初始化为false；裁判实现，细节不表 */void Visit( Vertex V ){    printf(&quot; %d&quot;, V);}void BFS ( LGraph Graph, Vertex S, void (*Visit)(Vertex) );int main(){    LGraph G;    Vertex S;    G = CreateGraph();    scanf(&quot;%d&quot;, &amp;S);    printf(&quot;BFS from %d:&quot;, S);    BFS(G, S, Visit);    return 0;}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>给定图如下：</p><p><img src="http://oyqupavdc.bkt.clouddn.com/101" alt="image"></p><pre><code>2</code></pre><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>BFS from 2: 2 0 3 5 4 1 6</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;typedef enum {false, true} bool;#define MaxVertexNum 10   /* 最大顶点数设为10 */typedef int Vertex;       /* 用顶点下标表示顶点,为整型 *//* 邻接点的定义 */typedef struct AdjVNode *PtrToAdjVNode;struct AdjVNode{    Vertex AdjV;        /* 邻接点下标 */    PtrToAdjVNode Next; /* 指向下一个邻接点的指针 */};/* 顶点表头结点的定义 */typedef struct Vnode{    PtrToAdjVNode FirstEdge; /* 边表头指针 */} AdjList[MaxVertexNum];     /* AdjList是邻接表类型 *//* 图结点的定义 */typedef struct GNode *PtrToGNode;struct GNode{    int Nv;     /* 顶点数 */    int Ne;     /* 边数   */    AdjList G;  /* 邻接表 */};typedef PtrToGNode LGraph; /* 以邻接表方式存储的图类型 */bool Visited[MaxVertexNum]; /* 顶点的访问标记 */LGraph CreateGraph(); /* 创建图并且将Visited初始化为false；裁判实现，细节不表 */void Visit( Vertex V ){    printf(&quot; %d&quot;, V);}void BFS ( LGraph Graph, Vertex S, void (*Visit)(Vertex) );int main(){    LGraph G;    Vertex S;    G = CreateGraph();    scanf(&quot;%d&quot;, &amp;S);    printf(&quot;BFS from %d:&quot;, S);    BFS(G, S, Visit);    return 0;}void BFS(LGraph Graph, Vertex S, void(*Visit)(Vertex)){   /* 以S为出发点对邻接矩阵存储的图Graph进行BFS搜索 */    int MAX=2*MaxVertexNum;    int queue[MAX];    int front=0,rear=0;    int i;    Vertex W;    PtrToAdjVNode V;    Visit(S);    Visited[S]=true;    rear=(rear+1)%MAX;    queue[rear] = S;    while(front!=rear)    {        front=(front+1)%MAX;        W=queue[front];        V=  Graph-&gt;G[W].FirstEdge;        while(V)        {            if(!Visited[V-&gt;AdjV])               {                   Visit(V-&gt;AdjV);                   Visited[V-&gt;AdjV]=true;                   rear = (rear + 1) % MAX; /* 入队 */                   queue[rear] = V-&gt;AdjV;               }               V=V-&gt;Next;        }    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>畅通工程之局部最小花费问题</title>
+      <link href="/%5Bobject%20Object%5D/%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86%E4%B8%8E%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91---%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E4%B9%8B%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E8%8A%B1%E8%B4%B9%E9%97%AE%E9%A2%98/"/>
+      <url>/%5Bobject%20Object%5D/%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86%E4%B8%8E%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91---%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E4%B9%8B%E5%B1%80%E9%83%A8%E6%9C%80%E5%B0%8F%E8%8A%B1%E8%B4%B9%E9%97%AE%E9%A2%98/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>某地区经过对城镇交通状况的调查，得到现有城镇间快速道路的统计数据，并提出“畅通工程”的目标：使整个地区任何两个城镇间都可以实现快速交通（但不一定有直接的快速道路相连，只要互相间接通过快速路可达即可）。现得到城镇道路统计表，表中列出了任意两城镇间修建快速路的费用，以及该道路是否已经修通的状态。现请你编写程序，计算出全地区畅通需要的最低成本。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入的第一行给出村庄数目N (1≤N≤100)；随后的N(N−1)/2行对应村庄间道路的成本及修建状态：每行给出4个正整数，分别是两个村庄的编号（从1编号到N），此两村庄间道路的成本，以及修建状态 — 1表示已建，0表示未建。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>输出全省畅通需要的最低成本。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>4</p><p>1 2 1 1</p><p>1 3 4 0</p><p>1 4 1 1</p><p>2 3 3 0</p><p>2 4 2 1</p><p>3 4 5 0</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>3</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include&lt;iostream&gt;#include&lt;algorithm&gt;#include &lt;stdio.h&gt;using namespace std;//数据整体存储所以需要建立结构体类型，struct（）【】数组类型，方便访问；struct VilliageRoad{    int x,y,cost,state;}road[10001];int N,M,t=0,sum=0;int fl[10001];//将存储数据按cost排序，bool comp(VilliageRoad a,VilliageRoad b)//比较花费大小{   return a.cost&lt;b.cost;}void flag(int x,int y)//联通并查集{    int fi=fl[x];    for(int i=1;i&lt;=N;i++)      if(fl[i]==fi)        fl[i]=fl[y];}void PrintfN()//输出{    for(int i=0;i&lt;M;i++)  {     if(fl[road[i].x]!=fl[road[i].y])      {        flag(road[i].x,road[i].y);         t++;    if(road[i].state==0)        sum+=road[i].cost;       }    if(t==N-1)break;  }    cout&lt;&lt;sum;}int main(){    cin&gt;&gt;N;    for(int i=0;i&lt;N;i++)        fl[i]=i;    if(N%2!=0)        M=N*(N-1)/2;    else        M=(N-1)*N/2;   for(int i=0;i&lt;M;i++)   {       cin&gt;&gt;road[i].x&gt;&gt;road[i].y&gt;&gt;road[i].cost&gt;&gt;road[i].state;       if(road[i].state==1)        flag(road[i].x,road[i].y);   }   sort(road,road+M,comp);   PrintfN();  return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>排座位</title>
+      <link href="/%5Bobject%20Object%5D/%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86%E4%B8%8E%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91---%E6%8E%92%E5%BA%A7%E4%BD%8D/"/>
+      <url>/%5Bobject%20Object%5D/%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86%E4%B8%8E%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91---%E6%8E%92%E5%BA%A7%E4%BD%8D/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>布置宴席最微妙的事情，就是给前来参宴的各位宾客安排座位。无论如何，总不能把两个死对头排到同一张宴会桌旁！这个艰巨任务现在就交给你，对任何一对客人，请编写程序告诉主人他们是否能被安排同席。</p><a id="more"></a><h5 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h5><p>输入第一行给出3个正整数：N（≤100），即前来参宴的宾客总人数，则这些人从1到N编号；M为已知两两宾客之间的关系数；K为查询的条数。随后M行，每行给出一对宾客之间的关系，格式为：宾客1 宾客2 关系，其中关系为1表示是朋友，-1表示是死对头。注意两个人不可能既是朋友又是敌人。最后K行，每行给出一对需要查询的宾客编号。</p><p>这里假设朋友的朋友也是朋友。但敌人的敌人并不一定就是朋友，朋友的敌人也不一定是敌人。只有单纯直接的敌对关系才是绝对不能同席的。</p><h5 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h5><p>对每个查询输出一行结果：如果两位宾客之间是朋友，且没有敌对关系，则输出No problem；如果他们之间并不是朋友，但也不敌对，则输出OK；如果他们之间有敌对，然而也有共同的朋友，则输出OK but…；如果他们之间只有敌对关系，则输出No way。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><pre><code>7 8 45 6 12 7 -11 3 13 4 16 7 -11 2 11 4 12 3 -13 45 72 37 2</code></pre><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><pre><code>No problemOKOK but...No way</code></pre><h5 id="编程实现-1-："><a href="#编程实现-1-：" class="headerlink" title="编程实现[1]："></a>编程实现[1]：</h5><pre><code>#include &lt;cstdio&gt;#include &lt;vector&gt;using namespace std;vector&lt;int&gt; fri;int enemy[101][101];int findfri(int x) {    while(x != fri[x])        x = fri[x];    return x;}void Union(int a, int b) {    int fria = findfri(a);    int frib = findfri(b);    if(fria != frib)        fri[fria] = frib;}int main() {    int n, m, k, a, b, c;    scanf(&quot;%d %d %d&quot;, &amp;n, &amp;m, &amp;k);    fri.resize(n + 1);    for(int i = 1; i &lt;= n; i++)        fri[i] = i;    for(int i = 0; i &lt; m; i++) {        scanf(&quot;%d %d %d&quot;, &amp;a, &amp;b, &amp;c);        if(c == 1)            Union(a, b);        else {            enemy[a][b] = 1;            enemy[b][a] = 1;        }    }    for(int i = 0; i &lt; k; i++) {        scanf(&quot;%d %d&quot;, &amp;a, &amp;b);        if(findfri(a) == findfri(b) &amp;&amp; enemy[a][b] == 0)            printf(&quot;No problem\n&quot;);        else if(findfri(a) != findfri(b) &amp;&amp; enemy[a][b] == 0)            printf(&quot;OK\n&quot;);        else if(findfri(a) == findfri(b) &amp;&amp; enemy[a][b] == 1)            printf(&quot;OK but...\n&quot;);        else if(enemy[a][b] == 1)            printf(&quot;No way\n&quot;);    }    return 0;}</code></pre><h5 id="编程实现-2"><a href="#编程实现-2" class="headerlink" title="编程实现[2]:"></a>编程实现[2]:</h5><pre><code>#include&lt;iostream&gt;#include&lt;algorithm&gt;#include &lt;stdio.h&gt;using namespace std;//数据整体存储所以需要建立结构体类型，struct（）【】数组类型，方便访问；int relationship[200][200]={{0}};int fri[100];int N,M,K;//N（≤100；M为已知两两宾客之间的关系数；K为查询的条数。//寻找朋友int findfriend(int x){    while(x!=fri[x])        x=fri[x];    return x;}//并查集void Union(int a,int b){    int m,n;    m=findfriend(a);    n=findfriend(b);    if(m!=n)        fri[m]=n;}void Build(){    int m,n,weight;    for(int i=0;i&lt;M;i++)   {       cin&gt;&gt;m&gt;&gt;n&gt;&gt;weight;       if(weight==1)       {           Union(m,n);       }       else       {           relationship[m][n]=weight;           relationship[n][m]=relationship[m][n];       }   }}//判断void JudgeandPrintf(int K){    int a,b;    for(int i=0;i&lt;K;i++)    {        cin&gt;&gt;a&gt;&gt;b;        //如果两位宾客之间是朋友，且没有敌对关系，则输出No problem；    if(findfriend(a)==findfriend(b)&amp;&amp;relationship[a][b]==0)        cout&lt;&lt;&quot;No problem&quot;&lt;&lt;endl;    // 如果他们之间并不是朋友，但也不敌对，则输出OK；    else if(findfriend(a)!=findfriend(b)&amp;&amp;relationship[a][b]==0)        cout&lt;&lt;&quot;OK&quot;&lt;&lt;endl;    //如果他们之间有敌对，然而也有共同的朋友，则输出OK but...；    else if(findfriend(a)==findfriend(b)&amp;&amp;relationship[a][b]==-1)        cout&lt;&lt;&quot;OK but...&quot;&lt;&lt;endl;        //如果他们之间只有敌对关系，则输出No way。    else if(relationship[a][b]==-1)       cout&lt;&lt;&quot;No way&quot;&lt;&lt;endl;    }}int main(){    cin&gt;&gt;N&gt;&gt;M&gt;&gt;K;   //初始化数组    for(int i=0;i&lt;N;i++)    {        fri[i]=i;    }    //创建关系图    Build();   //判断    JudgeandPrintf(K);  return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>邻接矩阵存储图的深度优先遍历</title>
+      <link href="/%5Bobject%20Object%5D/%E5%9B%BE%E7%9A%84%E6%A6%82%E5%BF%B5%20%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%92%8C%E9%81%8D%E5%8E%86---%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5%E5%AD%98%E5%82%A8%E5%9B%BE%E7%9A%84%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86/"/>
+      <url>/%5Bobject%20Object%5D/%E5%9B%BE%E7%9A%84%E6%A6%82%E5%BF%B5%20%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84%E5%92%8C%E9%81%8D%E5%8E%86---%E9%82%BB%E6%8E%A5%E7%9F%A9%E9%98%B5%E5%AD%98%E5%82%A8%E5%9B%BE%E7%9A%84%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>试实现邻接矩阵存储图的深度优先遍历。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>void DFS( MGraph Graph, Vertex V, void (*Visit)(Vertex) );</code></pre><p>其中MGraph是邻接矩阵存储的图，定义如下：</p><pre><code>typedef struct GNode *PtrToGNode;struct GNode{    int Nv;  /* 顶点数 */    int Ne;  /* 边数   */    WeightType G[MaxVertexNum][MaxVertexNum]; /* 邻接矩阵 */};typedef PtrToGNode MGraph; /* 以邻接矩阵存储的图类型 */函数DFS应从第V个顶点出发递归地深度优先遍历图Graph，遍历时用裁判定义的函数Visit访问每个顶点。当访问邻接点时，要求按序号递增的顺序。题目保证V是图中的合法顶点。</code></pre><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>#include &lt;stdio.h&gt;typedef enum {false, true} bool;#define MaxVertexNum 10  /* 最大顶点数设为10 */#define INFINITY 65535   /* ∞设为双字节无符号整数的最大值65535*/typedef int Vertex;      /* 用顶点下标表示顶点,为整型 */typedef int WeightType;  /* 边的权值设为整型 */typedef struct GNode *PtrToGNode;struct GNode{    int Nv;  /* 顶点数 */    int Ne;  /* 边数   */    WeightType G[MaxVertexNum][MaxVertexNum]; /* 邻接矩阵 */};typedef PtrToGNode MGraph; /* 以邻接矩阵存储的图类型 */bool Visited[MaxVertexNum]; /* 顶点的访问标记 */MGraph CreateGraph(); /* 创建图并且将Visited初始化为false；裁判实现，细节不表 */void Visit( Vertex V ){    printf(&quot; %d&quot;, V);}void DFS( MGraph Graph, Vertex V, void (*Visit)(Vertex) );int main(){    MGraph G;    Vertex V;    G = CreateGraph();    scanf(&quot;%d&quot;, &amp;V);    printf(&quot;DFS from %d:&quot;, V);    DFS(G, V, Visit);    return 0;}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>给定图如下：</p><p><img src="http://oyqupavdc.bkt.clouddn.com/101" alt="image"></p><pre><code>5</code></pre><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>DFS from 5: 5 1 3 0 2 4 6</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;typedef enum {false, true} bool;#define MaxVertexNum 10  /* 最大顶点数设为10 */#define INFINITY 65535   /* ∞设为双字节无符号整数的最大值65535*/typedef int Vertex;      /* 用顶点下标表示顶点,为整型 */typedef int WeightType;  /* 边的权值设为整型 */typedef struct GNode *PtrToGNode;struct GNode{    int Nv;  /* 顶点数 */    int Ne;  /* 边数   */    WeightType G[MaxVertexNum][MaxVertexNum]; /* 邻接矩阵 */};typedef PtrToGNode MGraph; /* 以邻接矩阵存储的图类型 */bool Visited[MaxVertexNum]; /* 顶点的访问标记 */MGraph CreateGraph(); /* 创建图并且将Visited初始化为false；裁判实现，细节不表 *///代码没给void Visit( Vertex V ){    printf(&quot; %d&quot;, V);}void DFS( MGraph Graph, Vertex V, void (*Visit)(Vertex) );int main(){    MGraph G;    Vertex V;    G = CreateGraph();    scanf(&quot;%d&quot;, &amp;V);    printf(&quot;DFS from %d:&quot;, V);    DFS(G, V, Visit);    return 0;}void DFS( MGraph Graph, Vertex V, void (*Visit)(Vertex) ){    Vertex W;    //（1）访问顶点v；    Visit(V);    Visited[V]=true;//d对访问过的点进行标记     //   （2）依次从v的未被访问的邻接点出发，对图进行深度优先遍历；直至图中和v有路径相通的顶点都被访问；   //3）若此时图中尚有顶点未被访问，则从一个未被访问的顶点出发，重新进行深度优先遍历，直到图中所有顶点均被访问过为止    for(W=0;W&lt;Graph-&gt;Nv;W++)    {        if(!Visited[W]&amp;&amp;Graph-&gt;G[V][W]==1)        {           DFS(Graph,W,Visit);        }    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>一元多项式的乘法与加法运算</title>
+      <link href="/%5Bobject%20Object%5D/%E9%93%BE%E8%A1%A8%E7%9A%84%E6%94%B9%E8%BF%9B%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E4%B8%80%E5%85%83%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%9A%84%E4%B9%98%E6%B3%95%E4%B8%8E%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97/"/>
+      <url>/%5Bobject%20Object%5D/%E9%93%BE%E8%A1%A8%E7%9A%84%E6%94%B9%E8%BF%9B%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E4%B8%80%E5%85%83%E5%A4%9A%E9%A1%B9%E5%BC%8F%E7%9A%84%E4%B9%98%E6%B3%95%E4%B8%8E%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>设计函数分别求两个一元多项式的乘积与和。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入分2行，每行分别先给出多项式非零项的个数，再以指数递降方式输入一个多项式非零项系数和指数（绝对值均为不超过1000的整数）。数字间以空格分隔。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>输出分2行，分别以指数递降方式输出乘积多项式以及和多项式非零项的系数和指数。数字间以空格分隔，但结尾不能有多余空格。零多项式应输出0 0。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>4 3 4 -5 2  6 1  -2 0</p><p>3 5 20  -7 4  3 1</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>15 24 -25 22 30 21 -10 20 -21 8 35 6 -33 5 14 4 -15 3 18 2 -6 1</p><p>5 20 -4 4 -5 2 9 1 -2 0</p><h5 id="编程实现-1-："><a href="#编程实现-1-：" class="headerlink" title="编程实现[1]："></a>编程实现[1]：</h5><pre><code>#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;typedef struct node{    int coefficient;  //系数    int exponent;  //指数    struct node * next;//指针} PolyNode, *Polynomial;Polynomial ReadPoly();void Attach(int c, int e, Polynomial * Rear);Polynomial MultPoly(Polynomial P1, Polynomial P2);Polynomial AddPoly(Polynomial P1, Polynomial P2);void PrintPoly(Polynomial P);int main(){    Polynomial Poly1, Poly2, PolySum, PolyMul;    Poly1 = ReadPoly();    Poly2 = ReadPoly();    PolyMul = MultPoly(Poly1, Poly2);    PrintPoly(PolyMul);    PolySum = AddPoly(Poly1, Poly2);    PrintPoly(PolySum);    return 0;}Polynomial ReadPoly(){    Polynomial P;    PolyNode *Rear, *temp;    P = (PolyNode*)malloc(sizeof(PolyNode));    P-&gt;next = NULL;    Rear = P;    int N, c, e;    scanf(&quot;%d&quot;, &amp;N);    while(N--){        scanf(&quot;%d %d&quot;, &amp;c, &amp;e);        Attach(c, e, &amp;Rear);    }    temp = P;    P = P-&gt;next;    free(temp);    return P;}void Attach(int c, int e, Polynomial * pRear){    Polynomial P;    P = (PolyNode*)malloc(sizeof(PolyNode));    P-&gt;coefficient = c;    P-&gt;exponent = e;    P-&gt;next = NULL;    (*pRear)-&gt;next = P;    *pRear = P;}Polynomial MultPoly(Polynomial P1, Polynomial P2){    Polynomial P, temp1, temp2, Rear, temp;    int c, e;    if(!P1 || !P2)        return NULL;    temp1 = P1;    temp2 = P2;    P = (PolyNode*)malloc(sizeof(PolyNode));    P-&gt;next = NULL;    Rear = P;    while(temp2){        c = temp1-&gt;coefficient * temp2-&gt;coefficient;        e = temp1-&gt;exponent + temp2-&gt;exponent;        if(c != 0){            Attach(c, e, &amp;Rear);            temp2 = temp2-&gt;next;        }    }    temp1 = temp1-&gt;next;    while(temp1){        temp2 = P2, Rear = P;        while(temp2){            c = temp1-&gt;coefficient * temp2-&gt;coefficient;            e = temp1-&gt;exponent + temp2-&gt;exponent;            if(c != 0){                while(Rear-&gt;next &amp;&amp; Rear-&gt;next-&gt;exponent &gt; e)                    Rear = Rear-&gt;next;                if(Rear-&gt;next &amp;&amp; Rear-&gt;next-&gt;exponent == e){                    if(Rear-&gt;next-&gt;coefficient + c)                        Rear-&gt;next-&gt;coefficient += c;                    else{                        temp = Rear-&gt;next;                        Rear-&gt;next = temp-&gt;next;                        free(temp);                    }                }                else{                    temp = (PolyNode*)malloc(sizeof(PolyNode));                    temp-&gt;coefficient = c;                    temp-&gt;exponent = e;                    temp-&gt;next = Rear-&gt;next;                    Rear-&gt;next = temp;                    Rear = Rear-&gt;next;                }                temp2 = temp2-&gt;next;            }        }        temp1 = temp1-&gt;next;    }    temp = P;    P = P-&gt;next;    free(temp);    return P;}Polynomial AddPoly(Polynomial P1, Polynomial P2){    Polynomial P, temp1, temp2, Rear, temp;    if(!P1 &amp;&amp; !P2){        if(!P1)            return P2;        else            return P1;    }    P = (PolyNode*)malloc(sizeof(PolyNode));    P-&gt;next = NULL;    Rear = P;    temp1 = P1;    temp2 = P2;    while(temp1 &amp;&amp; temp2){        if(temp1-&gt;exponent &gt; temp2-&gt;exponent){            if(temp1-&gt;coefficient){                Attach(temp1-&gt;coefficient, temp1-&gt;exponent, &amp;Rear);            }            temp1 = temp1-&gt;next;        }        else if(temp1-&gt;exponent == temp2-&gt;exponent){            if(temp1-&gt;coefficient + temp2-&gt;coefficient){                Attach(temp1-&gt;coefficient + temp2-&gt;coefficient, temp1-&gt;exponent, &amp;Rear);            }            temp1 = temp1-&gt;next;            temp2 = temp2-&gt;next;        }        else{            if(temp2-&gt;coefficient){                Attach(temp2-&gt;coefficient, temp2-&gt;exponent, &amp;Rear);            }            temp2 = temp2-&gt;next;        }    }    while(temp1){        Attach(temp1-&gt;coefficient, temp1-&gt;exponent, &amp;Rear);        temp1 = temp1-&gt;next;    }    while(temp2){        Attach(temp2-&gt;coefficient, temp2-&gt;exponent, &amp;Rear);        temp2 = temp2-&gt;next;    }    temp = P;    P = P-&gt;next;    free(temp);    return P;}void PrintPoly(Polynomial P){    int flag = 0;    if(!P){        printf(&quot;0 0&quot;);    }    while(P){        if (!flag)            flag = 1;        else            printf(&quot; &quot;);        printf(&quot;%d %d&quot;, P-&gt;coefficient, P-&gt;exponent);        P = P-&gt;next;    }    printf(&quot;\n&quot;);}</code></pre><h5 id="编程实现-2"><a href="#编程实现-2" class="headerlink" title="编程实现[2]:"></a>编程实现[2]:</h5><pre><code>#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include&lt;iostream&gt;using namespace  std;#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef struct Node{    int coefficient;  //系数    int exponent;  //指数    struct Node * next;//指针} PolyNode, *Polynomial;//声明：Polynomial PolyCreate();Polynomial PolyMult(Polynomial P1, Polynomial P2);Polynomial PolyAdd(Polynomial P1, Polynomial P2);void PolyPrint(Polynomial P);int main(){    Polynomial Lpoly1,Lpoly2,Lpolysum,Lpolymul;    Lpoly1 = PolyCreate();    Lpoly2 = PolyCreate();//    PolyPrint(Lpoly1);//    PolyPrint(Lpoly2);    Lpolymul = PolyMult(Lpoly1,Lpoly2);    PolyPrint(Lpolymul);    Lpolysum = PolyAdd(Lpoly1,Lpoly2);    PolyPrint(Lpolysum);    return 0;}Polynomial PolyCreate(){    Polynomial Lp;    PolyNode *rear ,*temp;    Lp=(PolyNode*)malloc(sizeof(PolyNode));    if(!Lp)exit(OVERFLOW);    Lp-&gt;next = NULL;    rear = Lp;    int N, c, e;    cin&gt;&gt;N;    while(N--)    {        cin&gt;&gt;c&gt;&gt;e;        temp=(PolyNode*)malloc(sizeof(PolyNode));        if(!temp)exit(OVERFLOW);        temp-&gt;coefficient = c;        temp-&gt;exponent = e;        temp-&gt;next = NULL;        rear-&gt;next=temp;        rear=temp;    }    return Lp;}void PolyPrint(Polynomial Lp){    PolyNode *P=Lp-&gt;next;    int flag = 0;    if(!P){        cout&lt;&lt;&quot;0 0&quot;;    }    while(P){        if (!flag)            flag = 1;        else            cout&lt;&lt;&quot; &quot;;       cout&lt;&lt;P-&gt;coefficient&lt;&lt;&quot; &quot;&lt;&lt;P-&gt;exponent;        P = P-&gt;next;    }    cout&lt;&lt;endl;}Polynomial PolyMult(Polynomial Lp1, Polynomial Lp2){    Polynomial Lp ,Lpp;    PolyNode *temp1,*temp2,*temp,*rear;    int c,e;    temp1=Lp1-&gt;next;    temp2=Lp2-&gt;next;    Lp = (PolyNode*)malloc(sizeof(PolyNode));    if(!Lp)exit(OVERFLOW);    Lp-&gt;next = NULL;    if(!temp1||!temp2)        return Lp;    while(temp1)    {        Lpp = (PolyNode*)malloc(sizeof(PolyNode));        if(!Lpp)exit(OVERFLOW);        Lpp-&gt;next = NULL;        rear=Lpp;        temp2=Lp2-&gt;next;         while(temp2)         {            c = temp1-&gt;coefficient * temp2-&gt;coefficient;            e = temp1-&gt;exponent + temp2-&gt;exponent;            temp=(PolyNode*)malloc(sizeof(PolyNode));            if(!temp)exit(OVERFLOW);            temp-&gt;coefficient = c;            temp-&gt;exponent = e;            temp-&gt;next = NULL;            rear-&gt;next=temp;            rear=temp;            temp2 = temp2-&gt;next;         }         Lp = PolyAdd(Lp,Lpp);         temp1=temp1-&gt;next;    }   return Lp;}Polynomial PolyAdd(Polynomial Lp1, Polynomial Lp2){    Polynomial Lp;    PolyNode *temp1, *temp2, *rear, *temp;    temp1=Lp1-&gt;next;    temp2=Lp2-&gt;next;    Lp = (PolyNode*)malloc(sizeof(PolyNode));    if(!Lp)exit(OVERFLOW);    Lp-&gt;next = NULL;    rear=Lp;    while(temp1&amp;&amp;temp2)    {        temp = (PolyNode*)malloc(sizeof(PolyNode));           if(!temp)exit(OVERFLOW);        temp-&gt;next = NULL;        if(temp1-&gt;exponent&gt;temp2-&gt;exponent)        {            temp-&gt;exponent = temp1-&gt;exponent;            temp-&gt;coefficient = temp1-&gt;coefficient;            rear-&gt;next=temp;            rear=temp;            temp1=temp1-&gt;next;        }        else if(temp1-&gt;exponent&lt;temp2-&gt;exponent)        {            temp-&gt;exponent = temp2-&gt;exponent;            temp-&gt;coefficient = temp2-&gt;coefficient;            rear-&gt;next=temp;            rear=temp;            temp2=temp2-&gt;next;        }        else        {            int sum;            sum =  temp1-&gt;coefficient+temp2-&gt;coefficient;            if(sum!=0)            {                temp-&gt;exponent = temp2-&gt;exponent;                temp-&gt;coefficient = sum;                rear-&gt;next=temp;                rear=temp;            }            temp2=temp2-&gt;next;            temp1=temp1-&gt;next;        }    }    while(temp1)    {         temp = (PolyNode*)malloc(sizeof(PolyNode));           if(!temp)exit(OVERFLOW);         temp-&gt;next = NULL;         temp-&gt;exponent = temp1-&gt;exponent;         temp-&gt;coefficient = temp1-&gt;coefficient;         rear-&gt;next=temp;         rear=temp;         temp1=temp1-&gt;next;    }     while(temp2)    {         temp = (PolyNode*)malloc(sizeof(PolyNode));           if(!temp)exit(OVERFLOW);         temp-&gt;next = NULL;         temp-&gt;exponent = temp2-&gt;exponent;         temp-&gt;coefficient = temp2-&gt;coefficient;         rear-&gt;next=temp;         rear=temp;         temp2=temp2-&gt;next;    }    return Lp;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>jmu-ds-单链表的基本运算</title>
+      <link href="/%5Bobject%20Object%5D/%E5%8D%95%E9%93%BE%E8%A1%A8---jmu-ds-%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97/"/>
+      <url>/%5Bobject%20Object%5D/%E5%8D%95%E9%93%BE%E8%A1%A8---jmu-ds-%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>实现单链表的基本运算：初始化、插入、删除、求表的长度、判空、释放。</p><a id="more"></a><p>（1）初始化单链表L，输出L-&gt;next的值；</p><p>（2）依次采用尾插法插入元素：输入分两行数据，第一行是尾插法需要插入的字符数据的个数，第二行是具体插入的字符数据。</p><p>（3）输出单链表L；</p><p>（4）输出单链表L的长度；</p><p>（5）判断单链表L是否为空；</p><p>（6）输出单链表L的第3个元素；</p><p>（7）输出元素a的位置；</p><p>（8）在第4个元素位置上插入‘x’元素；</p><p>（9）输出单链表L；</p><p>（10）删除L的第3个元素；</p><p>（11）输出单链表L；</p><p>（12）释放单链表L。</p><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>两行数据，第一行是尾插法需要插入的字符数据的个数，第二行是具体插入的字符数据。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>按照题目要求输出</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>5</p><p>a b c d e</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>0</p><p>a b c d e</p><p>5</p><p>no</p><p>c</p><p>1</p><p>a b c x d e</p><p>a b x d e</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;#include&lt;iostream&gt;using namespace std;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;typedef char ElemType; //假设线性表中的元素均为整型typedef struct LNode{    ElemType data;    struct LNode *next;}LNode,*LinkList;Status ListCreate_L(LinkList &amp;L,int n){    LNode *rearPtr,*curPtr;   //一个尾指针，一个指向新节点的指针    L=(LNode*)malloc(sizeof (LNode));//先建立一个带头结点的单链表    if(!L)exit(OVERFLOW);    L-&gt;next=NULL;    cout&lt;&lt;L-&gt;next&lt;&lt;&quot;\n&quot;;    rearPtr=L;  //初始时头结点为尾节点,rearPtr指向尾巴节点    for (int i=1;i&lt;=n;i++)    {  //每次循环都开辟一个新节点，并把新节点拼到尾节点后        curPtr=(LNode*)malloc(sizeof(LNode));//生成新结点        if(!curPtr)exit(OVERFLOW);        cin&gt;&gt;curPtr-&gt;data;//输入元素值        curPtr-&gt;next=NULL;  //最后一个节点的next赋空        rearPtr-&gt;next=curPtr;        rearPtr=curPtr;    }    return OK;}void ListPrint_CL(LinkList &amp;CL){   //输出单链表,空表时输出Empty List。    LNode *p=CL-&gt;next;  //p指向第一个元素结点    if(p==CL){      printf(&quot;Empty List&quot;);      return;    }    while(p)    {        if(p==CL-&gt;next)            cout&lt;&lt;p-&gt;data;        else            cout&lt;&lt;&quot; &quot;&lt;&lt;p-&gt;data;        p=p-&gt;next;    }    cout&lt;&lt;&quot;\n&quot;;}Status ListInsert(LinkList &amp;L,int pos,ElemType e){    LNode *prePtr,*temPtr;    prePtr=L;    for(int i=1;i&lt;pos;i++)    {        prePtr=prePtr-&gt;next;    }    temPtr=(LNode*)malloc(sizeof(LNode));//生成新结点    if(!temPtr)        exit(OVERFLOW);    temPtr-&gt;data=e;    temPtr-&gt;next=prePtr-&gt;next;    prePtr-&gt;next=temPtr;   return OK;}void ListJudge(LinkList &amp;CL){    if(CL!=NULL)        cout&lt;&lt;&quot;no\n&quot;;    else        cout&lt;&lt;&quot;yes\n&quot;;}int ListLocate_L(LinkList L,ElemType x ){    int index = 1;    // 位序初值为1    //在带有头结点的线性链表L中查找数据域值为x的结点，找到返回该结点序号，没找到返回0    LNode *p =L-&gt;next;    //指针p指向第一个结点（如果是空表则为空）    while(p&amp;&amp;p-&gt;data!=x)    {//p不为空且p所指结点的数据域值不为x        p=p-&gt;next;        ++index;    // 索引自增    }    if(p)cout&lt;&lt;index&lt;&lt;&quot;\n&quot;;    // 返回索引值}int ElemPrintf(LinkList L,int n){    LNode *p;    p=L;    for(int i=0;i&lt;n;i++)    {        p=p-&gt;next;    }    cout&lt;&lt;p-&gt;data&lt;&lt;&quot;\n&quot;;}void ListDelete_CL(LinkList &amp;CL,int n){    LNode *p,*q;//定义两个指针，一个指向cl ，另一个指向前一个指针的下一个地址    p = CL;//初始化p，指向表头    for(int i=1;i&lt;n;i++)    {        p=p-&gt;next;    }    p-&gt;next=p-&gt;next-&gt;next;   // free(p-&gt;next);}int main(){    LinkList L;    int n;    cin&gt;&gt;n; //输入链表中元素个数    if(ListCreate_L(L,n)!= OK) {          printf(&quot;表创建失败！！！\n&quot;);          return -1;    }     ListPrint_CL(L);     cout&lt;&lt;n&lt;&lt;&quot;\n&quot;;     ListJudge(L);     ElemPrintf(L,3);     ListLocate_L(L,&apos;a&apos;);     ListInsert(L,4,&apos;x&apos;);     ListPrint_CL(L);     ListDelete_CL(L,3);     ListPrint_CL(L);     free(L);   return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>两个有序链表序列的合并</title>
+      <link href="/%5Bobject%20Object%5D/%E5%8D%95%E9%93%BE%E8%A1%A8---%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E5%BA%8F%E5%88%97%E7%9A%84%E5%90%88%E5%B9%B6/"/>
+      <url>/%5Bobject%20Object%5D/%E5%8D%95%E9%93%BE%E8%A1%A8---%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E5%BA%8F%E5%88%97%E7%9A%84%E5%90%88%E5%B9%B6/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>已知两个非降序链表序列S1与S2，设计函数构造出S1与S2的并集新非降序链表S3。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入分两行，分别在每行给出由若干个正整数构成的非降序序列，用−1表示序列的结尾（−1不属于这个序列）。数字用空格间隔。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>在一行中输出合并后新的非降序链表，数字间用空格分开，结尾不能有多余空格；若新链表为空，输出NULL。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>1 3 5 -1</p><p>2 4 6 8 10 -1</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>1 2 3 4 5 6 8 10</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;#include&lt;iostream&gt;using namespace std;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;typedef int ElemType; //假设线性表中的元素均为整型typedef struct LNode{    ElemType data;    struct LNode *next;}LNode,*LinkList;Status ListCreate_L(LinkList &amp;L){    ElemType e;    LNode *rearPtr,*curPtr;   //一个尾指针，一个指向新节点的指针    L=(LNode*)malloc(sizeof (LNode));//先建立一个带头结点的单链表    if(!L)exit(OVERFLOW);    L-&gt;next=NULL;    rearPtr=L;  //初始时头结点为尾节点,rearPtr指向尾巴节点    while(scanf(&quot;%d&quot;,&amp;e)!=EOF)    {  //每次循环都开辟一个新节点，并把新节点拼到尾节点后        if(e==-1)            break;        curPtr=(LNode*)malloc(sizeof(LNode));//生成新结点        if(!curPtr)exit(OVERFLOW);        curPtr-&gt;data=e;;//输入元素值        curPtr-&gt;next=NULL;  //最后一个节点的next赋空        rearPtr-&gt;next=curPtr;        rearPtr=curPtr;    }    return OK;}void ListPrint_CL(LinkList &amp;CL){     LNode *p=CL-&gt;next;  //p指向第一个元素结点    if(p==NULL){      printf(&quot;NULL&quot;);      return;    }    while(p)    {        if(p==CL-&gt;next)            cout&lt;&lt;p-&gt;data;        else            cout&lt;&lt;&quot; &quot;&lt;&lt;p-&gt;data;        p=p-&gt;next;    }}LinkList Merge(LinkList L1,LinkList L2)   ///合并函数  重点要写的函数！{    LNode *pa,*pb,*pc,*pd;    LinkList L;    L = (LNode*)malloc(sizeof(LNode));    if(!L)exit(OVERFLOW);    pa=L1-&gt;next;    pb=L2-&gt;next;    pc = L;    while(pa!=NULL&amp;&amp; pb!=NULL)    {        if(pa-&gt;data&lt;=pb-&gt;data)        {            pd=(LNode*)malloc(sizeof(LNode));//生成新结点            if(!pd)exit(OVERFLOW);            pd-&gt;data=pa-&gt;data;            pd-&gt;next=NULL;            pa=pa-&gt;next;            pc-&gt;next=pd;            pc=pd;        }        else        {            pd=(LNode*)malloc(sizeof(LNode));//生成新结点            if(!pd)exit(OVERFLOW);            pd-&gt;data=pb-&gt;data;            pd-&gt;next=NULL;            pb=pb-&gt;next;            pc-&gt;next=pd;            pc=pd;        }    }    if(pa==NULL&amp;&amp;pb!=NULL)    {        while(pb)        {            pd=(LNode*)malloc(sizeof(LNode));//生成新结点            if(!pd)exit(OVERFLOW);            pd-&gt;data=pb-&gt;data;            pd-&gt;next=NULL;            pb=pb-&gt;next;            pc-&gt;next=pd;            pc=pd;        }    }    else if(pb==NULL&amp;&amp;pa!=NULL)    {         while(pa)        {            pd=(LNode*)malloc(sizeof(LNode));//生成新结点            if(!pd)exit(OVERFLOW);            pd-&gt;data=pa-&gt;data;            pd-&gt;next=NULL;            pa=pa-&gt;next;            pc-&gt;next=pd;            pc=pd;        }    }    if(pa==NULL&amp;&amp;pb==NULL)    return L;}int main(){    LinkList L1, L2, L;    ListCreate_L(L1);    ListCreate_L(L2);    L=Merge(L1,L2);    ListPrint_CL(L);    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>递归计算Ackermenn函数</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E9%80%92%E5%BD%92%E8%AE%A1%E7%AE%97Ackermenn%E5%87%BD%E6%95%B0/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E9%80%92%E5%BD%92%E8%AE%A1%E7%AE%97Ackermenn%E5%87%BD%E6%95%B0/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现Ackermenn函数的计算，其函数定义如下：</p><p><img src="http://oyqupavdc.bkt.clouddn.com/48" alt="image"></p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>int Ack( int m, int n );</code></pre><p>其中m和n是用户传入的非负整数。函数Ack返回Ackermenn函数的相应值。题目保证输入输出都在长整型</p><p>范围内。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>#include &lt;stdio.h&gt;int Ack( int m, int n );int main(){    int m, n;    scanf(&quot;%d %d&quot;, &amp;m, &amp;n);    printf(&quot;%d\n&quot;, Ack(m, n));    return 0;}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>2 3</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>9</p><h6 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h6><pre><code>#include &lt;stdio.h&gt;int Ack( int m, int n ){     if(m==0)return n+1;     if(n==0&amp;&amp;m&gt;0)return Ack(m-1,1);     if(n&gt;0&amp;&amp;m&gt;0) return Ack(m-1,Ack(m,n-1));}int main(){    int m, n;    scanf(&quot;%d %d&quot;, &amp;m, &amp;n);    printf(&quot;%d\n&quot;, Ack(m, n));    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 递归 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>递归计算P函数</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E9%80%92%E5%BD%92%E8%AE%A1%E7%AE%97P%E5%87%BD%E6%95%B0/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E9%80%92%E5%BD%92%E8%AE%A1%E7%AE%97P%E5%87%BD%E6%95%B0/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现下列函数P(n,x)的计算，其函数定义如下：</p><p><img src="http://oyqupavdc.bkt.clouddn.com/50" alt="image"></p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>double P( int n, double x );</code></pre><p>其中n是用户传入的非负整数，x是双精度浮点数。函数P返回P(n,x)函数的相应值。题目保证输入输出都在双精度范围内。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>#include &lt;stdio.h&gt;double P( int n, double x );int main(){    int n;    double x;    scanf(&quot;%d %lf&quot;, &amp;n, &amp;x);    printf(&quot;%.2f\n&quot;, P(n,x));    return 0;}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>10 1.7</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>3.05</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;double P( int n, double x ){    if (n==0)return 1;    if (n==1)return x;    if (n&gt;1)return ((2*n-1)*P(n-1,x)-(n-1)*P(n-2,x))/n;}int main(){    int n;    double x;    scanf(&quot;%d %lf&quot;, &amp;n, &amp;x);    printf(&quot;%.2f\n&quot;, P(n,x));    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 递归 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>十进制转换二进制</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E5%8D%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2%E4%BA%8C%E8%BF%9B%E5%88%B6/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E5%8D%81%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2%E4%BA%8C%E8%BF%9B%E5%88%B6/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现一个函数，将正整数n转换为二进制后输出。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>void dectobin( int n );</code></pre><p>函数dectobin应在一行中打印出二进制的n。建议用递归实现。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>#include &lt;stdio.h&gt;void dectobin( int n );int main(){    int n;    scanf(&quot;%d&quot;, &amp;n);    dectobin(n);    return 0;}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>10</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>1010</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;void dectobin( int n ){    if(n==0||n==1)printf(&quot;%d&quot;,n%2);    else    {        dectobin(n/2);        printf(&quot;%d&quot;,n%2);    }}int main(){    int n;    scanf(&quot;%d&quot;, &amp;n);    dectobin(n);    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 递归 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>两个有序链表序列的交集</title>
+      <link href="/%5Bobject%20Object%5D/%E5%8D%95%E9%93%BE%E8%A1%A8---%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E5%BA%8F%E5%88%97%E7%9A%84%E4%BA%A4%E9%9B%86/"/>
+      <url>/%5Bobject%20Object%5D/%E5%8D%95%E9%93%BE%E8%A1%A8---%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8%E5%BA%8F%E5%88%97%E7%9A%84%E4%BA%A4%E9%9B%86/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>已知两个非降序链表序列S1与S2，设计函数构造出S1与S2的交集新链表S3。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入分两行，分别在每行给出由若干个正整数构成的非降序序列，用−1表示序列的结尾（−1不属于这个序列）。数字用空格间隔。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>在一行中输出两个输入序列的交集序列，数字间用空格分开，结尾不能有多余空格；若新链表为空，输出NULL。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>1 2 5 -1</p><p>2 4 5 8 10 -1</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>2 5</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;#include&lt;iostream&gt;using namespace std;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;typedef int ElemType; //假设线性表中的元素均为整型typedef struct LNode{    ElemType data;    struct LNode *next;}LNode,*LinkList;Status ListCreate_L(LinkList &amp;L){    ElemType e;    LNode *rearPtr,*curPtr;   //一个尾指针，一个指向新节点的指针    L=(LNode*)malloc(sizeof (LNode));//先建立一个带头结点的单链表    if(!L)exit(OVERFLOW);    L-&gt;next=NULL;    rearPtr=L;  //初始时头结点为尾节点,rearPtr指向尾巴节点    while(scanf(&quot;%d&quot;,&amp;e)!=EOF)    {  //每次循环都开辟一个新节点，并把新节点拼到尾节点后        if(e==-1)            break;        curPtr=(LNode*)malloc(sizeof(LNode));//生成新结点        if(!curPtr)exit(OVERFLOW);        curPtr-&gt;data=e;;//输入元素值        curPtr-&gt;next=NULL;  //最后一个节点的next赋空        rearPtr-&gt;next=curPtr;        rearPtr=curPtr;    }    return OK;}void ListPrint_CL(LinkList &amp;CL){    LNode *p=CL-&gt;next;  //p指向第一个元素结点    if(p==NULL){      printf(&quot;NULL&quot;);      return;    }    while(p)    {        if(p==CL-&gt;next)            cout&lt;&lt;p-&gt;data;        else            cout&lt;&lt;&quot; &quot;&lt;&lt;p-&gt;data;        p=p-&gt;next;    }}LinkList InterSection(LinkList L1,LinkList L2){     LNode *pa,*pb,*pc,*pd;    LinkList L;    L = (LNode*)malloc(sizeof(LNode));    if(!L)exit(OVERFLOW);    pa=L1-&gt;next;    pb=L2-&gt;next;    pc = L;    while(pa!=NULL&amp;&amp; pb!=NULL)    {        if(pa-&gt;data&lt;pb-&gt;data)        {            pa=pa-&gt;next;        }        else if(pa-&gt;data&gt;pb-&gt;data)        {            pb=pb-&gt;next;        }        else        {            pd=(LNode*)malloc(sizeof(LNode));//生成新结点            if(!pd)exit(OVERFLOW);            pd-&gt;data=pa-&gt;data;            pd-&gt;next=NULL;            pa=pa-&gt;next;            pb=pb-&gt;next;            pc-&gt;next=pd;            pc=pd;        }    }    return L;}int main(){    LinkList L1, L2, L;    ListCreate_L(L1);    ListCreate_L(L2);    L=InterSection(L1,L2);    ListPrint_CL(L);    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>递归求Fabonacci数列</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E9%80%92%E5%BD%92%E6%B1%82Fabonacci%E6%95%B0%E5%88%97/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E9%80%92%E5%BD%92%E6%B1%82Fabonacci%E6%95%B0%E5%88%97/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现求Fabonacci数列项的函数。Fabonacci数列的定义如下：</p><p>f(n)=f(n−2)+f(n−1) (n≥2)，其中f(0)=0，f(1)=1。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>int f( int n );</code></pre><p>函数f应返回第n个Fabonacci数。题目保证输入输出在长整型范围内。建议用递归实现。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>#include &lt;stdio.h&gt;int f( int n );int main(){    int n;    scanf(&quot;%d&quot;, &amp;n);    printf(&quot;%d\n&quot;, f(n));    return 0;}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>6</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>8</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;int f( int n ){    if(n==0)return 0;    if(n==1)return 1;    if(n&gt;=2)return f(n-2)+f(n-1);}int main(){    int n;    scanf(&quot;%d&quot;, &amp;n);    printf(&quot;%d\n&quot;, f(n));    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 递归 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>二叉树求深度和叶子数</title>
+      <link href="/%5Bobject%20Object%5D/%E4%BA%8C%E5%8F%89%E6%A0%91---%E4%BA%8C%E5%8F%89%E6%A0%91%E6%B1%82%E6%B7%B1%E5%BA%A6%E5%92%8C%E5%8F%B6%E5%AD%90%E6%95%B0/"/>
+      <url>/%5Bobject%20Object%5D/%E4%BA%8C%E5%8F%89%E6%A0%91---%E4%BA%8C%E5%8F%89%E6%A0%91%E6%B1%82%E6%B7%B1%E5%BA%A6%E5%92%8C%E5%8F%B6%E5%AD%90%E6%95%B0/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>编写函数计算二叉树的深度以及叶子节点数。二叉树采用二叉链表存储结构</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>int GetDepthOfBiTree ( BiTree T);int LeafCount(BiTree T);</code></pre><p>其中 T是用户传入的参数，表示二叉树根节点的地址。函数须返回二叉树的深度（也称为高度）。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>//头文件包含#include&lt;stdlib.h&gt;#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;//函数状态码定义#define TRUE       1#define FALSE      0#define OK         1#define ERROR      0#define OVERFLOW   -1#define INFEASIBLE -2#define NULL  0typedef int Status;//二叉链表存储结构定义typedef int TElemType;typedef struct BiTNode{    TElemType data;    struct BiTNode  *lchild, *rchild; } BiTNode, *BiTree;//先序创建二叉树各结点Status CreateBiTree(BiTree &amp;T){   TElemType e;   scanf(&quot;%d&quot;,&amp;e);   if(e==0)T=NULL;   else{     T=(BiTree)malloc(sizeof(BiTNode));     if(!T)exit(OVERFLOW);     T-&gt;data=e;     CreateBiTree(T-&gt;lchild);     CreateBiTree(T-&gt;rchild);   }   return OK;  }//下面是需要实现的函数的声明int GetDepthOfBiTree ( BiTree T);int LeafCount(BiTree T);//下面是主函数int main(){   BiTree T;   int depth, numberOfLeaves;   CreateBiTree(T);   depth= GetDepthOfBiTree(T);     numberOfLeaves=LeafCount(T);   printf(&quot;%d %d\n&quot;,depth,numberOfLeaves);}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>1 3 0 0 5 7 0 0 0</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>3 2</p><h5 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h5><pre><code>//下面是需要实现的函数的声明int GetDepthOfBiTree ( BiTree T){    int deep;    if(!T)deep=0;    else    {        int d1=0;        int d2=0;        if(T-&gt;lchild!=NULL)        d1= GetDepthOfBiTree(T-&gt;lchild);        if(T-&gt;rchild!=NULL)        d2=GetDepthOfBiTree(T-&gt;rchild);       if(d1&gt;=d2)        deep=d1+1;       else        deep=d2+1;    }     return deep;}int LeafCount(BiTree T)//下面是主函数{    int counter=0;    int  counter2=0;    int  counter3=0;    if(!T) return counter=0;    else    {        if(T-&gt;lchild==NULL&amp;&amp;T-&gt;rchild==NULL) counter=1;    else    {        if(T-&gt;lchild!=NULL)            counter2=LeafCount(T-&gt;lchild);        if(T-&gt;rchild!=NULL)          counter3=LeafCount(T-&gt;rchild);     }     return counter=counter+counter2+counter3;    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 树 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>银行业务队列简单模拟</title>
+      <link href="/%5Bobject%20Object%5D/%E9%98%9F%E5%88%97%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E9%93%B6%E8%A1%8C%E4%B8%9A%E5%8A%A1%E9%98%9F%E5%88%97%E7%AE%80%E5%8D%95%E6%A8%A1%E6%8B%9F/"/>
+      <url>/%5Bobject%20Object%5D/%E9%98%9F%E5%88%97%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E9%93%B6%E8%A1%8C%E4%B8%9A%E5%8A%A1%E9%98%9F%E5%88%97%E7%AE%80%E5%8D%95%E6%A8%A1%E6%8B%9F/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>设某银行有A、B两个业务窗口，且处理业务的速度不一样，其中A窗口处理速度是B窗口的2倍 —— 即当A窗口每处理完2个顾客时，B窗口处理完1个顾客。给定到达银行的顾客序列，请按业务完成的顺序输出顾客序列。假定不考虑顾客先后到达的时间间隔，并且当不同窗口同时处理完2个顾客时，A窗口顾客优先输出。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入为一行正整数，其中第1个数字N(≤1000)为顾客总数，后面跟着N位顾客的编号。编号为奇数的顾客需要到A窗口办理业务，为偶数的顾客则去B窗口。数字间以空格分隔。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>按业务处理完成的顺序输出顾客的编号。数字间以空格分隔，但最后一个编号后不能有多余的空格。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>8 2 1 3 9 4 11 13 15</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>1 3 2 9 11 4 13 15</p><h5 id="编程实现-1"><a href="#编程实现-1" class="headerlink" title="编程实现[1]:"></a>编程实现[1]:</h5><pre><code>//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;//顺序表的存储结构定义#define LIST_INIT_SIZE  100#define LISTINCREMENT   10typedef int ElemType;  //假设线性表中的元素均为整型typedef struct{    ElemType* elem;   //存储空间基地址    int length;       //表中元素的个数    int listsize;     //表容量大小}SqList;    //顺序表类型定义//函数声明Status ListInsert(SqList &amp;L, ElemType e);//顺序表初始化函数Status InitList_Sq(SqList &amp;L){    //开辟一段空间    L.elem = (ElemType*)malloc(LIST_INIT_SIZE * sizeof(ElemType));    //检测开辟是否成功    if(!L.elem){        exit(OVERFLOW);    }    //赋值    L.length = 0;    L.listsize = LIST_INIT_SIZE;    return OK;}void ListPrint(SqList L1,SqList L2){    ElemType *p = L1.elem;//遍历元素用的指针    ElemType *q = L2.elem;//遍历元素用的指针    int i=0,j=0,flag=0;    if(L1.length==0)    {        for(int k = 0; k &lt; L2.length; ++k){        if(k == L2.length - 1){            printf(&quot;%d&quot;, *(q+k));        }        else{            printf(&quot;%d &quot;, *(q+k));        }         }    }    else    {            printf(&quot;%d&quot;, *(p+i));            ++i;            while(i&lt;L1.length||j&lt;L2.length)             {                 if(flag==1)                 {                    if(i&lt;L1.length)                    {                     printf(&quot; %d&quot;, *(p+i));                     i++;                     }                     flag=0;                 }                 if(flag==0)                 {                      if(i&lt;L1.length)                        {                            printf(&quot; %d&quot;, *(p+i));                            i++;                        }                        if(j&lt;L2.length)                        {                            printf(&quot; %d&quot;, *(q+j));                            j++;                        }                      flag=1;                 }             }    }}int main(){    //声明一个顺序表,    SqList L1,L2;    //初始化顺序表    InitList_Sq(L1);    InitList_Sq(L2);    int number = 0;    ElemType e;    scanf(&quot;%d&quot;, &amp;number);//插入数据的个数    for(int i = 0; i &lt; number; ++i)    {                scanf(&quot;%d&quot;, &amp;e);//输入数据       if(e%2)//elem%2等效为elem%2！=0       {        ListInsert(L1,e);//奇数       }       else       {          ListInsert(L2,e);        }    }    ListPrint(L1,L2);    return  0;}Status ListInsert(SqList &amp;L, ElemType e){     ElemType *p,*q;    if(L.length &gt;= L.listsize)    {        L.elem= (ElemType*)realloc(L.elem,(L.listsize+LISTINCREMENT)*sizeof(ElemType));        L.listsize += LISTINCREMENT;        if(!L.elem)        {        exit(OVERFLOW);       }    }    p=L.elem;    if(L.length==0)    {        *p=e;        L.length++;    }    else    {        while(p&lt;=L.elem+L.length-1)       {           p++;       }       for(q=L.elem+L.length-1;q&gt;=p;q--)       {           *(q+1)=*q;       }       *p=e;        L.length++;    }}</code></pre><h5 id="编程实现-2"><a href="#编程实现-2" class="headerlink" title="编程实现[2]:"></a>编程实现[2]:</h5><pre><code>#include&lt;stdio.h&gt;#include&lt;iostream&gt;#include&lt;queue&gt;using namespace std;int main (){    int num,elem,flag=0;    //输入N个元素，将元素存入两个队列    cin&gt;&gt;num ;    queue&lt;int&gt; A,B;    for(int i=0;i&lt;num;i++)    {        cin&gt;&gt;elem;        if(elem%2)//elem%2等效为elem%2！=0       {        A.push(elem);//奇数       }       else       {           B.push(elem);//偶数        }    }//    元素输出：//  当奇数队列A为空时仅输出偶队列B     if(A.empty())     {//空格问题         if(!B.empty())         {             cout&lt;&lt;B.front();             B.pop();         }         while(!B.empty())         {             cout&lt;&lt;&quot; &quot;&lt;&lt;B.front();             B.pop();         }     }     //当奇队列不为空时，1.奇数输出两个，偶数输出一个     if(!A.empty())     {//空格问题            cout&lt;&lt;A.front();             A.pop();       //当A或B任意一个非空             while(!A.empty()||!B.empty())             {                 if(flag==1)                 {                    if(!A.empty())                    {                     cout&lt;&lt;&quot; &quot;&lt;&lt;A.front();                     A.pop();                     }                     flag=0;                 }                 if(flag==0)                 {                      if(!A.empty())                        {                        cout&lt;&lt;&quot; &quot;&lt;&lt;A.front();                        A.pop();                        }                        if(!B.empty())                        {                        cout&lt;&lt;&quot; &quot;&lt;&lt;B.front();                        B.pop();                        }                      flag=1;                 }             }     }     return 0;}</code></pre><h5 id="编程实现-3"><a href="#编程实现-3" class="headerlink" title="编程实现[3]:"></a>编程实现[3]:</h5><pre><code> #include &quot;stdio.h&quot;  #include &quot;iostream&quot;  using namespace std;  int main(){    int num=0;    cin &gt;&gt; num;    int s=0;    int a[1001]={0},b[1001]={0};    int aa=0,bb=0;    int aaa=0;    for(int j=0;j &lt; num; ++j)    {        cin&gt;&gt;s;        if(s%2 != 0)        {            a[aa] = s;            aa++;        }        if(s%2 == 0)        {            b[bb] = s;            bb++;        }    }    if(aa==0)      aaa=1;    aa=0;    bb=0;    for(int j=0;j &lt; num; ++j)    {        if(a[aa] != 0)        {            if(j == 0)            {                cout&lt;&lt;a[aa];                aa++;                if(a[aa] != 0)                {                cout&lt;&lt;&quot; &quot;&lt;&lt;a[aa];                aa++;                }            }            else            {                cout&lt;&lt;&quot; &quot;&lt;&lt;a[aa];                aa++;                if(a[aa] != 0)                {                cout&lt;&lt;&quot; &quot;&lt;&lt;a[aa];                aa++;                }            }        }        if(b[bb] != 0)        {            if(aaa==1)            {                cout&lt;&lt;b[bb];                bb++;                aaa=0;            }            else            {                 cout&lt;&lt;&quot; &quot;&lt;&lt;b[bb];                bb++;            }        }    }    return 0;}</code></pre><h5 id="编程实现-4"><a href="#编程实现-4" class="headerlink" title="编程实现[4]:"></a>编程实现[4]:</h5><pre><code>  #include &quot;stdio.h&quot;  #include &quot;queue&quot;  #include &quot;iostream&quot;  using namespace std;  int main() {      int num,i;      scanf(&quot;%d&quot;, &amp;num);      //将元素划分为奇偶两个队列，循环入队      queue&lt;int&gt; A,B;      for (int i = 0; i &lt; num; i++) {         int temp;         scanf(&quot;%d&quot;, &amp;temp);        if(temp % 2){ //奇数           A.push(temp);         }        else{           B.push(temp);           }    }//队列输出//第一个元素输出     if(!A.empty())      {//为了空格问题        printf(&quot;%d&quot;, A.front());        A.pop();        i=1;     } //元素全为偶数     else{         printf(&quot;%d&quot;, B.front());         B.pop();        //i=1;     }     while (!B.empty() || !A.empty()) {//至少一个非空         i++;         if(i % 2){            if(!A.empty()){                 printf(&quot; %d&quot;, A.front());                 A.pop();             }         }         else{            if(!A.empty()){                 printf(&quot; %d&quot;, A.front());                 A.pop();             }             if(!B.empty()){                 printf(&quot; %d&quot;, B.front());                 B.pop();             }         }    }    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 队列 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>带头结点的单链表就地逆置</title>
+      <link href="/%5Bobject%20Object%5D/%E5%8D%95%E9%93%BE%E8%A1%A8---%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8%E5%B0%B1%E5%9C%B0%E9%80%86%E7%BD%AE/"/>
+      <url>/%5Bobject%20Object%5D/%E5%8D%95%E9%93%BE%E8%A1%A8---%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8%E5%B0%B1%E5%9C%B0%E9%80%86%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求编写函数实现带头结点的单链线性表的就地逆置操作函数。L是一个带头结点的单链表，函数ListReverse_L(LinkList &amp;L)要求在不新开辟节点的前提下将单链表中的元素进行逆置，如原单链表元素依次为1,2,3,4，则逆置后为4,3,2,1。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>void ListReverse_L(LinkList &amp;L);</code></pre><p>其中 L 是一个带头结点的单链表。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;typedef int  ElemType; //假设线性表中的元素均为整型typedef struct LNode{    ElemType data;    struct LNode *next;}LNode,*LinkList;Status ListCreate_L(LinkList &amp;L,int n){    LNode *rearPtr,*curPtr;   //一个尾指针，一个指向新节点的指针    L=(LNode*)malloc(sizeof (LNode));    if(!L)exit(OVERFLOW);    L-&gt;next=NULL;               //先建立一个带头结点的单链表    rearPtr=L;  //初始时头结点为尾节点,rearPtr指向尾巴节点    for (int i=1;i&lt;=n;i++){  //每次循环都开辟一个新节点，并把新节点拼到尾节点后        curPtr=(LNode*)malloc(sizeof(LNode));//生成新结点        if(!curPtr)exit(OVERFLOW);        scanf(&quot;%d&quot;,&amp;curPtr-&gt;data);//输入元素值        curPtr-&gt;next=NULL;  //最后一个节点的next赋空        rearPtr-&gt;next=curPtr;        rearPtr=curPtr;    }    return OK;}void ListReverse_L(LinkList &amp;L);void ListPrint_L(LinkList &amp;L){//输出单链表    LNode *p=L-&gt;next;  //p指向第一个元素结点    while(p!=NULL)    {          if(p-&gt;next!=NULL)               printf(&quot;%d &quot;,p-&gt;data);          else               printf(&quot;%d&quot;,p-&gt;data);          p=p-&gt;next;    }}int main(){    LinkList L;    int n;    scanf(&quot;%d&quot;,&amp;n);    if(ListCreate_L(L,n)!= OK) {          printf(&quot;表创建失败！！！\n&quot;);          return -1;    }    ListReverse_L(L);    ListPrint_L(L);    return 0;}</code></pre><h5 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h5><p>第一行输入一个整数n，表示单链表中元素个数，接下来一行共n个整数，中间用空格隔开。</p><h5 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h5><p>输出逆置后顺序表的各个元素，两个元素之间用空格隔开，最后一个元素后面没有空格。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>4<br>1 2 3 4</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>4 3 2 1</p><h5 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h5><pre><code>void ListReverse_L(LinkList &amp;L){    LNode* p=L-&gt;next-&gt;next;    if(L==NULL||L-&gt;next==NULL||L-&gt;next-&gt;next==NULL) return;    L-&gt;next-&gt;next=NULL;    while(p)    {             LNode* q=p-&gt;next;        p-&gt;next=L-&gt;next;        L-&gt;next=p;        p=q;    }}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>整数分解为若干项之和</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E6%95%B4%E6%95%B0%E5%88%86%E8%A7%A3%E4%B8%BA%E8%8B%A5%E5%B9%B2%E9%A1%B9%E4%B9%8B%E5%92%8C/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E6%95%B4%E6%95%B0%E5%88%86%E8%A7%A3%E4%B8%BA%E8%8B%A5%E5%B9%B2%E9%A1%B9%E4%B9%8B%E5%92%8C/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>将一个正整数N分解成几个正整数相加，可以有多种分解方法，例如7=6+1，7=5+2，7=5+1+1，…。编程求出正整数N的所有整数分解式子。</p><a id="more"></a><h5 id="输入格式："><a href="#输入格式：" class="headerlink" title="输入格式："></a>输入格式：</h5><p>每个输入包含一个测试用例，即正整数N (0&lt;N≤30)。</p><h5 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h5><p>按递增顺序输出N的所有整数分解式子。递增顺序是指：对于两个分解序列N<br>​1<br>​​ ={n<br>​1<br>​​ ,n<br>​2<br>​​ ,⋯}和N<br>​2<br>​​ ={m<br>​1<br>​​ ,m<br>​2<br>​​ ,⋯}，若存在i使得n<br>​1<br>​​ =m<br>​1<br>​​ ,⋯,n<br>​i<br>​​ =m<br>​i<br>​​ ，但是n<br>​i+1<br>​​ &lt;m<br>​i+1<br>​​ ,则N<br>​1<br>​​ 序列必定在N<br>​2<br>​​ 序列之前输出。每个式子由小到大相加，式子间用分号隔开，且每输出4个式子后换行。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>7</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>7=1+1+1+1+1+1+1;7=1+1+1+1+1+2;7=1+1+1+1+3;7=1+1+1+2+2</p><p>7=1+1+1+4;7=1+1+2+3;7=1+1+5;7=1+2+2+2</p><p>7=1+2+4;7=1+3+3;7=1+6;7=2+2+3</p><p>7=2+5;7=3+4;7=7</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include&lt;stdio.h&gt;int N;int s[31]; // 存放划分结果int top = -1; // 数组指针int count = 0; // 统计输出的次数int sum = 0; // 拆分项累加和void division (int i);int main (){    scanf (&quot;%d&quot;, &amp;N);    division (1);    return 0;}void division (int i) {    if (sum == N) {        count ++;        printf(&quot;%d=&quot;, N);        int k;        for (k=0; k&lt;top; k++) {            printf(&quot;%d+&quot;, s[k]);        }        if (count%4 == 0 || s[top] == N) {            printf(&quot;%d\n&quot;, s[top]);        } else {            printf(&quot;%d;&quot;, s[top]);        }        return;    } // 输出部分    if (sum &gt; N) {        return;    }    int j;    for ( j=i; j&lt;=N; j++) {        s[++top] = j;        sum += j;        division (j);        sum -= j;        top --;    } // 算法主体}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 递归 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>根据后序和中序遍历输出先序遍历</title>
+      <link href="/%5Bobject%20Object%5D/%E4%BA%8C%E5%8F%89%E6%A0%91---%E6%A0%B9%E6%8D%AE%E5%90%8E%E5%BA%8F%E5%92%8C%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E8%BE%93%E5%87%BA%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86/"/>
+      <url>/%5Bobject%20Object%5D/%E4%BA%8C%E5%8F%89%E6%A0%91---%E6%A0%B9%E6%8D%AE%E5%90%8E%E5%BA%8F%E5%92%8C%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E8%BE%93%E5%87%BA%E5%85%88%E5%BA%8F%E9%81%8D%E5%8E%86/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求根据给定的一棵二叉树的后序遍历和中序遍历结果，输出该树的先序遍历结果。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>第一行给出正整数N(≤30)，是树中结点的个数。随后两行，每行给出N个整数，分别对应后序遍历和中序遍历结果，数字间以空格分隔。题目保证输入正确对应一棵二叉树。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>在一行中输出Preorder:以及该树的先序遍历结果。数字间有1个空格，行末不得有多余空格。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>7</p><p>2 3 1 5 7 6 4</p><p>1 2 3 4 5 6 7</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>Preorder: 4 1 3 2 6 5 7</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;void getx(int *h,int *z,int n){    if(n&lt;=0)return;    int root=h[n-1];    int k;    for(k=0;k&lt;n;k++)    {        if(z[k]==root)            break;    }    cout&lt;&lt;&quot; &quot;&lt;&lt;root;    getx(h,z,k);    getx(h+k,z+k+1,n-k-1);}int main(){    int h[33];    int z[33];    int n;    cin&gt;&gt;n;    for(int i=0;i&lt;n;i++)        cin&gt;&gt;h[i];    for(int j=0;j&lt;n;j++)        cin&gt;&gt;z[j];    cout&lt;&lt;&quot;Preorder:&quot;;    getx(h,z,n);    cout&lt;&lt;endl;    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 树 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>递归实现指数函数</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0%E6%8C%87%E6%95%B0%E5%87%BD%E6%95%B0/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0%E6%8C%87%E6%95%B0%E5%87%BD%E6%95%B0/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>本题要求实现一个计算x<br>​n<br>​​ （n≥1）的函数。</p><a id="more"></a><h3 id="函数接口定义："><a href="#函数接口定义：" class="headerlink" title="函数接口定义："></a>函数接口定义：</h3><pre><code>double calc_pow( double x, int n );</code></pre><p>函数calc_pow应返回x的n次幂的值。建议用递归实现。题目保证结果在双精度范围内。</p><h3 id="裁判测试程序样例："><a href="#裁判测试程序样例：" class="headerlink" title="裁判测试程序样例："></a>裁判测试程序样例：</h3><pre><code>#include &lt;stdio.h&gt;double calc_pow( double x, int n );int main(){    double x;    int n;    scanf(&quot;%lf %d&quot;, &amp;x, &amp;n);    printf(&quot;%.0f\n&quot;, calc_pow(x, n));    return 0;}</code></pre><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>2 3</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>8</p><h5 id="编程实现："><a href="#编程实现：" class="headerlink" title="编程实现："></a>编程实现：</h5><pre><code>#include &lt;stdio.h&gt;double calc_pow( double x, int n ){    int result;    if(n==1) result=x;    else    {        result=x*calc_pow(x,n-1);    }    return result;}int main(){    double x;    int n;    scanf(&quot;%lf %d&quot;, &amp;x, &amp;n);    printf(&quot;%.0f\n&quot;, calc_pow(x, n));    return 0;}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 递归 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>全排列</title>
+      <link href="/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E5%85%A8%E6%8E%92%E5%88%97/"/>
+      <url>/%5Bobject%20Object%5D/%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92---%E5%85%A8%E6%8E%92%E5%88%97/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>请编写程序输出前n个正整数的全排列（n&lt;10），并通过9个测试用例（即n从1到9）观察n逐步增大时程序的运行时间。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入给出正整数n（&lt;10）。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>输出1到n的全排列。每种排列占一行，数字间无空格。排列的输出顺序为字典序，即序列a<br>​1<br>​​ ,a<br>​2<br>​​ ,⋯,a<br>​n<br>​​ 排在序列b<br>​1<br>​​ ,b<br>​2<br>​​ ,⋯,b<br>​n<br>​​ 之前，如果存在k使得a<br>​1<br>​​ =b<br>​1<br>​​ ,⋯,a<br>​k<br>​​ =b<br>​k<br>​​  并且 a<br>​k+1<br>​​ &lt;b<br>​k+1<br>​​ 。</p><h5 id="输入样例："><a href="#输入样例：" class="headerlink" title="输入样例："></a>输入样例：</h5><p>3</p><h5 id="输出样例："><a href="#输出样例：" class="headerlink" title="输出样例："></a>输出样例：</h5><p>123</p><p>132</p><p>213</p><p>231</p><p>312</p><p>321</p><h5 id="编程实现"><a href="#编程实现" class="headerlink" title="编程实现:"></a>编程实现:</h5><pre><code>#include&lt;iostream&gt;using namespace std;int n;int a[10],vis[10],p[10];void change(int l){    if(l&gt;n)    {        for(int j=1;j&lt;=n;j++)        cout&lt;&lt;p[j];        cout&lt;&lt;endl;    }    else    {        for(int k=1;k&lt;=n;k++)        {            if(!vis[a[k]])            {                p[l]=a[k];                vis[k]=1;                change(l+1);                vis[k]=0;            }        }    }}int main(){    cin&gt;&gt;n;    for(int i=1;i&lt;=n;i++)    {        a[i]=i;    }    for(int j=1;j&lt;=10;j++)    {        vis[j]=0;    }    change(1);}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 递归 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>求链式线性表的倒数第K项</title>
+      <link href="/%5Bobject%20Object%5D/%E9%93%BE%E8%A1%A8%E7%9A%84%E6%94%B9%E8%BF%9B%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E6%B1%82%E9%93%BE%E5%BC%8F%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACK%E9%A1%B9/"/>
+      <url>/%5Bobject%20Object%5D/%E9%93%BE%E8%A1%A8%E7%9A%84%E6%94%B9%E8%BF%9B%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8---%E6%B1%82%E9%93%BE%E5%BC%8F%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%ACK%E9%A1%B9/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>给定一系列正整数，请设计一个尽可能高效的算法，查找倒数第K个位置上的数字。</p><a id="more"></a><h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入首先给出一个正整数K，随后是若干正整数，最后以一个负整数表示结尾（该负数不算在序列内，不要处理）。</p><h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>输出倒数第K个位置上的数据。如果这个位置不存在，输出错误信息NULL。</p><h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>4 1 2 3 4 5 6 7 8 9 0 -1</p><h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>7</p><h5 id="编程实现-1"><a href="#编程实现-1" class="headerlink" title="编程实现[1]:"></a>编程实现[1]:</h5><pre><code>#include &lt;iostream&gt;#include &lt;vector&gt;#include&lt;stdio.h&gt;using namespace std;vector&lt;int&gt; v;int main(){    int t, pos;    scanf(&quot;%d&quot;, &amp;pos);    while(scanf(&quot;%d&quot;, &amp;t), t &gt;= 0)    {        v.push_back(t);    }    int size = v.size();    if(size-pos &lt; 0)    {        printf(&quot;NULL\n&quot;);        return 0;    }    printf(&quot;%d\n&quot;, v[v.size()-pos]);    return 0;}</code></pre><h5 id="编程实现-2"><a href="#编程实现-2" class="headerlink" title="编程实现[2]:"></a>编程实现[2]:</h5><pre><code>#include &lt;stdio.h&gt;//库函数头文件包含#include&lt;stdio.h&gt;#include&lt;malloc.h&gt;#include&lt;stdlib.h&gt;#include&lt;iostream&gt;using namespace std;//函数状态码定义#define TRUE        1#define FALSE       0#define OK          1#define ERROR       0#define INFEASIBLE -1#define OVERFLOW   -2typedef int  Status;typedef int ElemType; //假设线性表中的元素均为整型typedef struct LNode{    ElemType data;    struct LNode *next;}LNode,*LinkList;Status ListCreate_L(LinkList &amp;L){    ElemType e;    LNode *rearPtr,*curPtr;   //一个尾指针，一个指向新节点的指针    L=(LNode*)malloc(sizeof (LNode));//先建立一个带头结点的单链表    if(!L)exit(OVERFLOW);    L-&gt;next=NULL;    rearPtr=L;  //初始时头结点为尾节点,rearPtr指向尾巴节点    while(scanf(&quot;%d&quot;,&amp;e)!=EOF)    {  //每次循环都开辟一个新节点，并把新节点拼到尾节点后        if(e&lt;0)            break;        curPtr=(LNode*)malloc(sizeof(LNode));//生成新结点        if(!curPtr)exit(OVERFLOW);        curPtr-&gt;data=e;;//输入元素值        curPtr-&gt;next=NULL;  //最后一个节点的next赋空        rearPtr-&gt;next=curPtr;        rearPtr=curPtr;    }    return OK;}void GetElem(LinkList &amp;L,int n);int main(){    LinkList L;    int n;    scanf(&quot;%d&quot;,&amp;n);    if(ListCreate_L(L)!= OK) {          printf(&quot;表创建失败！！！\n&quot;);          return -1;    }    GetElem(L,n);    return 0;}void GetElem(LinkList &amp;L,int n){    LNode *p;    int counter=0;     LNode *q;    q=L-&gt;next;    int sum=0;    p=L-&gt;next;    while(p)    {        ++counter;        p=p-&gt;next;    }    while(q&amp;&amp;sum&lt;counter-n)    {        sum++;        q=q-&gt;next;    }    if(counter==0||n&gt;counter)    {        printf(&quot;NULL&quot;);    }    else    printf(&quot;%d&quot;,q-&gt;data);}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/%5Bobject%20Object%5D/hello-world/"/>
+      <url>/%5Bobject%20Object%5D/hello-world/</url>
+      
+        <content type="html"><![CDATA[<script src="\assets\js\APlayer.min.js"> </script><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.<br> <a id="more"></a></p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> hello </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hello </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>

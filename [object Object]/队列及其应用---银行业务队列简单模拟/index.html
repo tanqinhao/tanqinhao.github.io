@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="队列,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="设某银行有A、B两个业务窗口，且处理业务的速度不一样，其中A窗口处理速度是B窗口的2倍 —— 即当A窗口每处理完2个顾客时，B窗口处理完1个顾客。给定到达银行的顾客序列，请按业务完成的顺序输出顾客序列。假定不考虑顾客先后到达的时间间隔，并且当不同窗口同时处理完2个顾客时，A窗口顾客优先输出。">
+<meta name="keywords" content="队列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="银行业务队列简单模拟">
+<meta property="og:url" content="http://tqh.ac.cn/[object Object]/队列及其应用---银行业务队列简单模拟/index.html">
+<meta property="og:site_name" content="个人博客">
+<meta property="og:description" content="设某银行有A、B两个业务窗口，且处理业务的速度不一样，其中A窗口处理速度是B窗口的2倍 —— 即当A窗口每处理完2个顾客时，B窗口处理完1个顾客。给定到达银行的顾客序列，请按业务完成的顺序输出顾客序列。假定不考虑顾客先后到达的时间间隔，并且当不同窗口同时处理完2个顾客时，A窗口顾客优先输出。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-17T11:21:42.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="银行业务队列简单模拟">
+<meta name="twitter:description" content="设某银行有A、B两个业务窗口，且处理业务的速度不一样，其中A窗口处理速度是B窗口的2倍 —— 即当A窗口每处理完2个顾客时，B窗口处理完1个顾客。给定到达银行的顾客序列，请按业务完成的顺序输出顾客序列。假定不考虑顾客先后到达的时间间隔，并且当不同窗口同时处理完2个顾客时，A窗口顾客优先输出。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://tqh.ac.cn/[object Object]/队列及其应用---银行业务队列简单模拟/">
+
+
+
+
+
+  <title>银行业务队列简单模拟 | 个人博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            时间轴
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://tqh.ac.cn/[object Object]/队列及其应用---银行业务队列简单模拟/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="槑">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">银行业务队列简单模拟</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-04T13:44:22+08:00">
+                2017-11-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="\assets\js\APlayer.min.js"> </script><p>设某银行有A、B两个业务窗口，且处理业务的速度不一样，其中A窗口处理速度是B窗口的2倍 —— 即当A窗口每处理完2个顾客时，B窗口处理完1个顾客。给定到达银行的顾客序列，请按业务完成的顺序输出顾客序列。假定不考虑顾客先后到达的时间间隔，并且当不同窗口同时处理完2个顾客时，A窗口顾客优先输出。</p>
+<a id="more"></a>
+<h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式:"></a>输入格式:</h5><p>输入为一行正整数，其中第1个数字N(≤1000)为顾客总数，后面跟着N位顾客的编号。编号为奇数的顾客需要到A窗口办理业务，为偶数的顾客则去B窗口。数字间以空格分隔。</p>
+<h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式:"></a>输出格式:</h5><p>按业务处理完成的顺序输出顾客的编号。数字间以空格分隔，但最后一个编号后不能有多余的空格。</p>
+<h5 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例:"></a>输入样例:</h5><p>8 2 1 3 9 4 11 13 15</p>
+<h5 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例:"></a>输出样例:</h5><p>1 3 2 9 11 4 13 15</p>
+<h5 id="编程实现-1"><a href="#编程实现-1" class="headerlink" title="编程实现[1]:"></a>编程实现[1]:</h5><pre><code>//库函数头文件包含
+#include&lt;stdio.h&gt;
+#include&lt;malloc.h&gt;
+#include&lt;stdlib.h&gt;
+
+//函数状态码定义
+#define TRUE        1
+#define FALSE       0
+#define OK          1
+#define ERROR       0
+#define INFEASIBLE -1
+#define OVERFLOW   -2
+
+typedef int  Status;
+
+//顺序表的存储结构定义
+#define LIST_INIT_SIZE  100
+#define LISTINCREMENT   10
+typedef int ElemType;  //假设线性表中的元素均为整型
+typedef struct{
+    ElemType* elem;   //存储空间基地址
+    int length;       //表中元素的个数
+    int listsize;     //表容量大小
+}SqList;    //顺序表类型定义
+
+//函数声明
+Status ListInsert(SqList &amp;L, ElemType e);
+
+//顺序表初始化函数
+Status InitList_Sq(SqList &amp;L)
+{
+    //开辟一段空间
+    L.elem = (ElemType*)malloc(LIST_INIT_SIZE * sizeof(ElemType));
+    //检测开辟是否成功
+    if(!L.elem){
+        exit(OVERFLOW);
+    }
+    //赋值
+    L.length = 0;
+    L.listsize = LIST_INIT_SIZE;
+
+    return OK;
+}
+
+
+void ListPrint(SqList L1,SqList L2)
+{
+    ElemType *p = L1.elem;//遍历元素用的指针
+    ElemType *q = L2.elem;//遍历元素用的指针
+    int i=0,j=0,flag=0;
+    if(L1.length==0)
+    {
+        for(int k = 0; k &lt; L2.length; ++k){
+        if(k == L2.length - 1){
+            printf(&quot;%d&quot;, *(q+k));
+        }
+        else{
+            printf(&quot;%d &quot;, *(q+k));
+        }
+         }
+    }
+    else
+    {
+            printf(&quot;%d&quot;, *(p+i));
+            ++i;
+            while(i&lt;L1.length||j&lt;L2.length)
+             {
+
+                 if(flag==1)
+                 {
+                    if(i&lt;L1.length)
+                    {
+                     printf(&quot; %d&quot;, *(p+i));
+                     i++;
+                     }
+                     flag=0;
+
+                 }
+
+                 if(flag==0)
+                 {
+                      if(i&lt;L1.length)
+                        {
+                            printf(&quot; %d&quot;, *(p+i));
+                            i++;
+
+                        }
+                        if(j&lt;L2.length)
+                        {
+                            printf(&quot; %d&quot;, *(q+j));
+                            j++;
+                        }
+                      flag=1;
+                 }
+
+
+             }
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+int main()
+{
+    //声明一个顺序表,
+    SqList L1,L2;
+    //初始化顺序表
+    InitList_Sq(L1);
+    InitList_Sq(L2);
+
+    int number = 0;
+    ElemType e;
+
+    scanf(&quot;%d&quot;, &amp;number);//插入数据的个数
+
+    for(int i = 0; i &lt; number; ++i)
+    {
+                scanf(&quot;%d&quot;, &amp;e);//输入数据
+       if(e%2)//elem%2等效为elem%2！=0
+       {
+        ListInsert(L1,e);//奇数
+       }
+       else
+       {
+          ListInsert(L2,e);
+
+        }
+    }
+
+    ListPrint(L1,L2);
+
+    return  0;
+}
+Status ListInsert(SqList &amp;L, ElemType e)
+{
+     ElemType *p,*q;
+
+    if(L.length &gt;= L.listsize)
+    {
+        L.elem= (ElemType*)realloc(L.elem,(L.listsize+LISTINCREMENT)*sizeof(ElemType));
+        L.listsize += LISTINCREMENT;
+        if(!L.elem)
+        {
+        exit(OVERFLOW);
+       }
+    }
+
+    p=L.elem;
+    if(L.length==0)
+    {
+        *p=e;
+        L.length++;
+    }
+    else
+    {
+        while(p&lt;=L.elem+L.length-1)
+       {
+           p++;
+       }
+
+       for(q=L.elem+L.length-1;q&gt;=p;q--)
+       {
+           *(q+1)=*q;
+       }
+       *p=e;
+        L.length++;
+    }
+
+}
+</code></pre><h5 id="编程实现-2"><a href="#编程实现-2" class="headerlink" title="编程实现[2]:"></a>编程实现[2]:</h5><pre><code>#include&lt;stdio.h&gt;
+#include&lt;iostream&gt;
+#include&lt;queue&gt;
+using namespace std;
+
+
+int main ()
+{
+    int num,elem,flag=0;
+    //输入N个元素，将元素存入两个队列
+    cin&gt;&gt;num ;
+    queue&lt;int&gt; A,B;
+    for(int i=0;i&lt;num;i++)
+    {
+        cin&gt;&gt;elem;
+        if(elem%2)//elem%2等效为elem%2！=0
+       {
+        A.push(elem);//奇数
+       }
+       else
+       {
+           B.push(elem);//偶数
+
+        }
+    }
+
+//    元素输出：
+//  当奇数队列A为空时仅输出偶队列B
+     if(A.empty())
+     {//空格问题
+         if(!B.empty())
+         {
+             cout&lt;&lt;B.front();
+             B.pop();
+         }
+         while(!B.empty())
+         {
+             cout&lt;&lt;&quot; &quot;&lt;&lt;B.front();
+             B.pop();
+         }
+     }
+     //当奇队列不为空时，1.奇数输出两个，偶数输出一个
+     if(!A.empty())
+     {//空格问题
+            cout&lt;&lt;A.front();
+             A.pop();
+       //当A或B任意一个非空
+             while(!A.empty()||!B.empty())
+             {
+
+                 if(flag==1)
+                 {
+                    if(!A.empty())
+                    {
+                     cout&lt;&lt;&quot; &quot;&lt;&lt;A.front();
+                     A.pop();
+                     }
+                     flag=0;
+
+                 }
+
+                 if(flag==0)
+                 {
+                      if(!A.empty())
+                        {
+                        cout&lt;&lt;&quot; &quot;&lt;&lt;A.front();
+                        A.pop();
+                        }
+                        if(!B.empty())
+                        {
+                        cout&lt;&lt;&quot; &quot;&lt;&lt;B.front();
+                        B.pop();
+                        }
+                      flag=1;
+                 }
+
+
+             }
+
+     }
+     return 0;
+}
+</code></pre><h5 id="编程实现-3"><a href="#编程实现-3" class="headerlink" title="编程实现[3]:"></a>编程实现[3]:</h5><pre><code> #include &quot;stdio.h&quot;
+  #include &quot;iostream&quot;
+  using namespace std;
+
+
+  int main()
+{
+    int num=0;
+    cin &gt;&gt; num;
+    int s=0;
+    int a[1001]={0},b[1001]={0};
+    int aa=0,bb=0;
+    int aaa=0;
+    for(int j=0;j &lt; num; ++j)
+    {
+        cin&gt;&gt;s;
+        if(s%2 != 0)
+        {
+            a[aa] = s;
+            aa++;
+
+        }
+        if(s%2 == 0)
+        {
+            b[bb] = s;
+            bb++;
+        }
+
+    }
+    if(aa==0)
+      aaa=1;
+    aa=0;
+    bb=0;
+    for(int j=0;j &lt; num; ++j)
+    {
+
+        if(a[aa] != 0)
+        {
+            if(j == 0)
+            {
+                cout&lt;&lt;a[aa];
+                aa++;
+                if(a[aa] != 0)
+                {
+                cout&lt;&lt;&quot; &quot;&lt;&lt;a[aa];
+                aa++;
+                }
+            }
+            else
+            {
+                cout&lt;&lt;&quot; &quot;&lt;&lt;a[aa];
+                aa++;
+                if(a[aa] != 0)
+                {
+                cout&lt;&lt;&quot; &quot;&lt;&lt;a[aa];
+                aa++;
+                }
+            }
+        }
+        if(b[bb] != 0)
+        {
+            if(aaa==1)
+            {
+                cout&lt;&lt;b[bb];
+                bb++;
+                aaa=0;
+            }
+            else
+            {
+                 cout&lt;&lt;&quot; &quot;&lt;&lt;b[bb];
+                bb++;
+            }
+
+        }
+
+    }
+
+    return 0;
+}
+</code></pre><h5 id="编程实现-4"><a href="#编程实现-4" class="headerlink" title="编程实现[4]:"></a>编程实现[4]:</h5><pre><code>  #include &quot;stdio.h&quot;
+  #include &quot;queue&quot;
+  #include &quot;iostream&quot;
+  using namespace std;
+  int main() {
+      int num,i;
+      scanf(&quot;%d&quot;, &amp;num);
+      //将元素划分为奇偶两个队列，循环入队
+      queue&lt;int&gt; A,B;
+      for (int i = 0; i &lt; num; i++) {
+         int temp;
+         scanf(&quot;%d&quot;, &amp;temp);
+        if(temp % 2){ //奇数
+           A.push(temp);
+         }
+        else{
+           B.push(temp);
+           }
+    }
+//队列输出
+//第一个元素输出
+     if(!A.empty())
+      {//为了空格问题
+        printf(&quot;%d&quot;, A.front());
+        A.pop();
+        i=1;
+
+     }
+ //元素全为偶数
+     else{
+         printf(&quot;%d&quot;, B.front());
+         B.pop();
+        //i=1;
+     }
+     while (!B.empty() || !A.empty()) {//至少一个非空
+         i++;
+         if(i % 2){
+            if(!A.empty()){
+                 printf(&quot; %d&quot;, A.front());
+                 A.pop();
+             }
+         }
+         else{
+            if(!A.empty()){
+                 printf(&quot; %d&quot;, A.front());
+                 A.pop();
+             }
+             if(!B.empty()){
+                 printf(&quot; %d&quot;, B.front());
+                 B.pop();
+             }
+         }
+    }
+
+    return 0;
+}
+</code></pre>
+      
+    </div>
+    
+    
+    
+	
+    
+	  <div>
+        <div style="text-align:center;color: #cccc;font-size:14px;">------ 本文结束 ------</div>
+	  </div>
+    
+    
+	
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/队列/" rel="tag"><i class="fa fa-tag"></i> 队列</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/[object Object]/单链表---带头结点的单链表就地逆置/" rel="next" title="带头结点的单链表就地逆置">
+                <i class="fa fa-chevron-left"></i> 带头结点的单链表就地逆置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/[object Object]/二叉树---二叉树求深度和叶子数/" rel="prev" title="二叉树求深度和叶子数">
+                二叉树求深度和叶子数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="槑">
+            
+              <p class="site-author-name" itemprop="name">槑</p>
+              <p class="site-description motion-element" itemprop="description">学无止境！！！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tanqinhao" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://gitee.com/tanqhao/myblog/" target="_blank" title="Gitee">
+                    
+                      <i class="fa fa-fw fa-git"></i>Gitee</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://tanqhao.gitee.io/myblog/about/" target="_blank" title="微信">
+                    
+                      <i class="fa fa-fw fa-weixin"></i>微信</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://tanqhao.gitee.io/myblog/about/" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#输入格式"><span class="nav-number">1.</span> <span class="nav-text">输入格式:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#输出格式"><span class="nav-number">2.</span> <span class="nav-text">输出格式:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#输入样例"><span class="nav-number">3.</span> <span class="nav-text">输入样例:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#输出样例"><span class="nav-number">4.</span> <span class="nav-text">输出样例:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编程实现-1"><span class="nav-number">5.</span> <span class="nav-text">编程实现[1]:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编程实现-2"><span class="nav-number">6.</span> <span class="nav-text">编程实现[2]:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编程实现-3"><span class="nav-number">7.</span> <span class="nav-text">编程实现[3]:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编程实现-4"><span class="nav-number">8.</span> <span class="nav-text">编程实现[4]:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">槑</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info"><a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next"> 
+  Gemini
+  </a>
+  </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
